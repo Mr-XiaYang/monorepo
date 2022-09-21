@@ -1,0 +1,10 @@
+packages:
+  - app/millions-pixel-service
+  - app/millions-pixel-website
+  - app/zero-base-manage
+  - app/zero-base-service
+  - packages/packer
+  - packages/server
+  - packages/model
+  - packages/adapter/*
+  - packages/utils/*

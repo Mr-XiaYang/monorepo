@@ -1,0 +1,25 @@
+{
+  "name": "@mr.xiayang/packer",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "packer": "./lib/cli.mjs"
+  },
+  "main": "./lib/index.mjs",
+  "scripts": {
+    "start": "node --enable-source-maps ./lib/cli.mjs",
+    "build": "node --enable-source-maps ./scripts/build.js",
+    "dev": "npm run build && npm run start --"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "commander": "^9.4.0",
+    "loglevel": "^1.8.0",
+    "loglevel-plugin-prefix": "^0.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "esbuild": "^0.15.8",
+    "typescript": "^4.8.3"
+  }
+}
