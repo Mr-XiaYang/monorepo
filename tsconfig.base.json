@@ -1,25 +1,31 @@
 {
   "compilerOptions": {
-    "compilerOptions": {
-      "lib": [
-        "es2021"
-      ],
-      "module": "commonjs",
-      "target": "es2021",
-      "noEmit": true,
-      "strict": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "baseUrl": ".",
-      "paths": {
-        "@mr.xiayang/*": [
-          "./packages/core/plugin/*",
-          "./packages/core/adapter/*",
-          "./packages/core/*",
-          "./packages/*"
-        ]
-      }
+    "composite": true,
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "noEmit": true,
+    "strict": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
+    "baseUrl": "./packages",
+    "paths": {
+      "@mr.xiayang/*": [
+        "./packages/core/plugin/*",
+        "./packages/core/adapter/*",
+        "./packages/core/*",
+        "./packages/*"
+      ]
     }
   },
   "exclude": [

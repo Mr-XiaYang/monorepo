@@ -31,7 +31,7 @@ const options = {
   }
 }
 
-if (fs.statSync(path.join(options.absWorkingDir || process.cwd(), options.outdir)).isDirectory()) {
+if (fs.existsSync(path.join(options.absWorkingDir || process.cwd(), options.outdir))) {
   fs.rmSync(path.join(options.absWorkingDir || process.cwd(), options.outdir), {recursive: true, force: true})
 }
 

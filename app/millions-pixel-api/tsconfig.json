@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+  },
+  "include": [
+    "schema/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

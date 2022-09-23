@@ -3,7 +3,7 @@ import loglevel from "loglevel";
 import * as process from "process";
 import { version } from "../../package.json";
 import { InvalidOptionArgumentError, InvalidArgumentError } from "../utils/error";
-
+import Mo from 'module';
 export const IPRegex: RegExp =
   /^(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const HostRegex: RegExp =
@@ -16,7 +16,6 @@ export function install(options: { name: string } = {name: "serve"}): Command {
   const command = new Command(options.name);
   command.summary("starts a development server");
   command.description(`The ${options.name} command starts a development server, which will automatically rebuild your app as you change files, and supports hot reloading. It accepts one or more file paths or globs as entries.`);
-  command.usage("[options] <entries...>");
   command.argument("<entries...>", "“entries” are the files that Parcel starts at when building your source code.");
   command.option(
     "-h --host <string>",
@@ -41,6 +40,7 @@ export function install(options: { name: string } = {name: "serve"}): Command {
   command.helpOption("--help", `display help for ${options.name}`);
   command.action(async function (options) {
     logger.info(options);
+    console.log("as")
   });
   return command;
 }

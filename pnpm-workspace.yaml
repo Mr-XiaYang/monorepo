@@ -1,4 +1,5 @@
 packages:
+  - app/millions-pixel-api
   - app/millions-pixel-service
   - app/millions-pixel-website
   - app/zero-base-manage
