@@ -3,7 +3,7 @@ const esbuild = require('esbuild')
 const path = require("path");
 
 const internalPackage = {
-  "@xy/server": path.join(__dirname, "../../core/server/src/index.ts")
+  "@xy/server": path.join(__dirname, "../../core/server/src/server.ts")
 };
 
 esbuild.build({

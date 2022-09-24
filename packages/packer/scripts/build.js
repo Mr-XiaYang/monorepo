@@ -11,7 +11,7 @@ const packageJson = require("../package.json");
 const options = {
   absWorkingDir: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
   entryPoints: [
-    './src/index.ts',
+    './src/server.ts',
     './src/cli.ts'
   ],
   bundle: true,
