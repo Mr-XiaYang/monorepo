@@ -4,6 +4,8 @@ import { Logger } from "./logger";
 export type FlowNodeReturn<T> = T | null | undefined;
 export type FlowNode<T> = (item: T) => FlowNodeReturn<T> | Promise<FlowNodeReturn<T>>;
 
+export type FlowData<T extends Flow<any>> = T extends Flow<infer R> ? R : unknown;
+
 export class Flow<T> {
   nodes: FlowNode<T>[] = [];
 
@@ -13,8 +15,7 @@ export class Flow<T> {
     for (let i = 0; i < this.nodes.length; ++i) {
       try {
         res = await this.nodes[i](res);
-      }
-      catch (e) {
+      } catch (e) {
         this.onError(e, res!, input, logger);
         return undefined;
       }
@@ -34,13 +35,10 @@ export class Flow<T> {
   }
 
   remove<K extends T>(node: FlowNode<K>) {
-    return this.nodes.remove(v => v === node as any);
+    return this.nodes.filter(v => v !== node);
   }
 
   onError: (e: Error | ServerError, last: T, input: T, logger: Logger | undefined) => void = (e, last, input, logger) => {
-    logger?.error('Uncaught ServerError:', e);
+    logger?.error("Uncaught ServerError:", e);
   };
-
 }
-
-export type FlowData<T extends Flow<any>> = T extends Flow<infer R> ? R : unknown;
