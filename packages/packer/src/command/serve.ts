@@ -1,9 +1,7 @@
-import { Command, CommanderError } from "commander";
+import { Command } from "commander";
 import loglevel from "loglevel";
-import * as process from "process";
-import { version } from "../../package.json";
-import { InvalidOptionArgumentError, InvalidArgumentError } from "../utils/error";
-import Mo from 'module';
+import { InvalidOptionArgumentError } from "../utils/error";
+
 export const IPRegex: RegExp =
   /^(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const HostRegex: RegExp =
@@ -40,7 +38,7 @@ export function install(options: { name: string } = {name: "serve"}): Command {
   command.helpOption("--help", `display help for ${options.name}`);
   command.action(async function (options) {
     logger.info(options);
-    console.log("as")
+    console.log("as");
   });
   return command;
 }

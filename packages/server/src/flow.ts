@@ -38,7 +38,7 @@ export class Flow<T> {
     return this.nodes.filter(v => v !== node);
   }
 
-  onError: (e: Error | ServerError, last: T, input: T, logger: Logger | undefined) => void = (e, last, input, logger) => {
-    logger?.error("Uncaught ServerError:", e);
+  onError = (error: Error | ServerError, last: T, input: T, logger: Logger | undefined): void => {
+    logger?.error("Uncaught ServerError:", error);
   };
 }

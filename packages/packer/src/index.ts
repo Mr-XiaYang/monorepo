@@ -10,13 +10,13 @@ loglevelPrefixPlugin.apply(loglevel, {
   },
 });
 
-import runCommand from "./command/run";
+import { install as installRunCommand } from "./command/run";
 import { install as installServeCommand } from "./command/serve";
 
 const command = new Command(Object.keys(bin).pop());
 command.usage(`<command> [options]`);
-command.addCommand(runCommand);
-command.addCommand(installServeCommand({name: "serve"}));
+command.addCommand(installRunCommand());
+command.addCommand(installServeCommand());
 command.version(version, "-v --version", `Prints the current version`);
 command.helpOption("--help", `Prints help information`);
 export default command;
