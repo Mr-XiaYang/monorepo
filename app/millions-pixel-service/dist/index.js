@@ -35,8 +35,17 @@ var plugins = FastifyPlugin__default["default"](async (instance) => {
   name: "plugins",
 });
 
-var routes = FastifyPlugin__default["default"](async (fastify) => {
+var auth = FastifyPlugin__default["default"](async (fastify) => {
+  fastify.route({
+    url: "/sign",
+    method: "GET",
+    async handler() {
+    },
+  });
+}, {name: "auth-route"});
 
+var routes = FastifyPlugin__default["default"](async (fastify) => {
+  fastify.register(auth, {prefix: "/auth"});
 }, {name: "routes"});
 
 const fastify = Fastify__default["default"]({logger: pino__default["default"](pinoPretty__default["default"]({singleLine: true}))});
