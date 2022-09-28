@@ -12,10 +12,10 @@ fastify.register(routes);
 fastify.listen({port: 8080}, (error) => {
   if (!error) {
     process.on("uncaughtException", (error) => {
-      fastify.log.error("[uncaughtException]", error);
+      fastify.log.error(error, `[uncaughtException]: ${(error as Error).message}`);
     });
     process.on("unhandledRejection", (error) => {
-      fastify.log.error("[unhandledRejection]", error);
+      fastify.log.error(error, `[unhandledRejection]: ${(error as Error).message}`);
     });
   } else {
     fastify.log.error(error);

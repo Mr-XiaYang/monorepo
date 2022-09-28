@@ -5,8 +5,8 @@ import pixel from "./pixel";
 import ws from "./ws";
 
 export default FastifyPlugin(async (fastify, opts: { prefix: string }) => {
-  fastify.register(bitmap, opts);
-  fastify.register(pixel, opts);
-  fastify.register(draw, opts);
-  fastify.register(ws, opts);
+  await fastify.register(bitmap, opts);
+  await fastify.register(pixel, opts);
+  await fastify.register(draw, opts);
+  await fastify.register(ws, opts);
 }, {name: "board-route"});

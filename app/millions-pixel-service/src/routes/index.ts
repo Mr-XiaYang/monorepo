@@ -3,6 +3,6 @@ import auth from "./auth";
 import board from "./board";
 
 export default FastifyPlugin(async (fastify) => {
-  fastify.register(auth, {prefix: "/auth"});
-  fastify.register(board, {prefix: "/board"});
+  await fastify.register(auth, {prefix: "/auth"});
+  await fastify.register(board, {prefix: "/board"});
 }, {name: "routes"});

@@ -1,9 +1,9 @@
-import FastifyPlugin from "fastify-plugin";
+import fastifyPlugin from "fastify-plugin";
 
-import FastifyWebsocket from "@fastify/websocket";
+import fastifyWebsocket from "@fastify/websocket";
 
-export default FastifyPlugin(async (fastify) => {
-  fastify.register(FastifyWebsocket, {});
+export default fastifyPlugin(async (fastify) => {
+  await fastify.register(fastifyWebsocket, {});
 }, {
-  name: "websocker",
+  name: "websocket",
 });

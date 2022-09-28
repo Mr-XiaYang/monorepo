@@ -1,9 +1,9 @@
-import FastifyPlugin from "fastify-plugin";
+import fastifyPlugin from "fastify-plugin";
 
-import FastifySwagger from "@fastify/swagger";
+import fastifySwagger from "@fastify/swagger";
 
-export default FastifyPlugin(async (fastify) => {
-  fastify.register(FastifySwagger, {});
+export default fastifyPlugin(async (fastify) => {
+  fastify.register(fastifySwagger, {});
 }, {
   name: "swagger",
 });
