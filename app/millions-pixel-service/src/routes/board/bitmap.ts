@@ -14,7 +14,7 @@ export default FastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   fastify.route<{
     Params: Static<typeof paramsSchema>
   }>({
-    url: `${opts.prefix}/bitmap/:x-:y`,
+    url: `${opts.prefix}/bitmap/:x/:y`,
     method: "GET",
     schema: {
       params: paramsSchema,

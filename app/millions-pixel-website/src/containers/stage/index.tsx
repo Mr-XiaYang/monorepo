@@ -21,25 +21,34 @@ export function MainStage() {
 
   const [image, setImage] = useState<HTMLCanvasElement | null>(null);
   React.useEffect(() => {
-    fetch("http://127.0.0.1:8080/board/bitmap/1-1").then((
-      response,
-    ) => {
-      response.arrayBuffer().then((buffer) => {
-        const bitmap = new Uint8ClampedArray(buffer);
-        const imageData = new Uint32Array(buffer.byteLength).map((value, index) => {
-          return (
-            bitmap[index] > 0 ? Buffer.from(Uint32Array.of(255, 100, 100, 100)).readUInt32BE(0) : 0
-          );
+    const horizontalIndex = new Array(Math.ceil(window.innerWidth / 2 / 480))
+    .fill(undefined).map((_, index) => [index + 1, -(index + 1)]).flat();
+    const verticalIndex = new Array(Math.ceil(window.innerHeight / 2 / 270))
+    .fill(undefined).map((_, index) => [index + 1, -(index + 1)]).flat();
+    for (let x of horizontalIndex) {
+      for (let y of verticalIndex) {
+        fetch(`http://127.0.0.1:8080/board/bitmap/${x}/${y}`).then((response) => {
+          response.arrayBuffer().then((buffer) => {
+            const bitmap = new Uint8ClampedArray(buffer);
+            const imageData = new Uint32Array(buffer.byteLength).map((value, index) =>
+              (
+                bitmap[index] > 0 ? Buffer.from(Uint32Array.of(255, 100, 100, 100)).readUInt32BE(0) : 0
+              ),
+            );
+            const canvas: HTMLCanvasElement = document.createElement("canvas");
+            canvas.width = 480;
+            canvas.height = 270;
+            const canvasContext = canvas.getContext("2d")!;
+            canvasContext.putImageData(
+              new ImageData(new Uint8ClampedArray(imageData.buffer), 480, 270),
+              x * 480 - 480, y * 270 - 270,
+            );
+            setImage(canvas);
+            console.log(x * 480 - 480, y * 270 - 270);
+          });
         });
-        const canvas: HTMLCanvasElement = document.createElement("canvas");
-        const canvasContext = canvas.getContext("2d")!;
-        canvasContext.putImageData(
-          new ImageData(new Uint8ClampedArray(imageData.buffer), 480, 270),
-          0, 0,
-        );
-        setImage(canvas);
-      });
-    });
+      }
+    }
   }, []);
 
   const wheelStage = useCallback(function (e: Konva.KonvaEventObject<WheelEvent>) {
@@ -65,7 +74,8 @@ export function MainStage() {
       width={window.innerWidth} height={window.innerHeight}
     >
       <Layer>
-        <Rect x={0} y={0} height={4} width={4} fill="red" />
+        <Rect x={-2} y={-2} height={4} width={4} fill="red" />
+        <Rect x={480 - 2} y={270 - 2} height={4} width={4} fill="red" />
         {image && (
           <Image x={0} y={0} image={image} />
         )}
