@@ -7,7 +7,7 @@ import pinoPretty from "pino-pretty";
 import config from "./config";
 
 const fastify = Fastify({logger: pino(pinoPretty({singleLine: true}))});
-fastify.register(config);
+fastify.register(config, {configPath: "config.yaml"});
 fastify.register(plugins);
 fastify.register(storage);
 fastify.register(routes);

@@ -6,7 +6,7 @@ import { colors } from "../utils/colors";
 
 
 async function loadData(x: number, y: number) {
-  const response = await fetch(`http://192.168.0.27:8080/board/bitmap/${x}/${y}`);
+  const response = await fetch(`http://localhost:8080/board/bitmap/${x}/${y}`);
   const buffer = await response.arrayBuffer();
   return new Uint8Array(buffer);
 }
@@ -41,7 +41,7 @@ export class PixelMapStore extends BaseStore {
       const imageBuffer = new Uint8ClampedArray(
         new Uint32Array(buffer.length).map((_, index) => {
           const color = colors[buffer[index]];
-          return parseInt(`${color.slice(1, 3)}${color.slice(3, 5)}${color.slice(5, 7)}ff`, 16);
+          return parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
         }).buffer);
       runInAction(() => {
         this.data[`${x},${y}`] = {
@@ -52,7 +52,6 @@ export class PixelMapStore extends BaseStore {
           },
           width: 480, height: 270, data: imageBuffer,
         };
-        console.log(this.size);
       });
     }).catch((error) => {
       console.log(error);

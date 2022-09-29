@@ -1,42 +1,34 @@
 import { Buffer } from "buffer";
 import Konva from "konva";
-import { autorun, reaction } from "mobx";
+import { autorun, reaction, values } from "mobx";
 import { Observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Layer, Rect, Stage, Text, Image, Shape, Group } from "react-konva";
 import { useStore } from "../../hooks";
+import { colors } from "../../utils/colors";
 
 export function MainStage() {
   const stageRef = useRef<Konva.Stage | null>(null);
   const pixelMapRef = useRef<Konva.Layer | null>(null);
   const {pixelMap} = useStore();
   useEffect(() => {
-    pixelMap.loadPixelMap(-1, -1);
-    pixelMap.loadPixelMap(-1, -2);
-    pixelMap.loadPixelMap(-1, -3);
-    pixelMap.loadPixelMap(-1, -4);
-    const pixelMapSizeReactionDisposer = reaction(
-      () => pixelMap.size,
-      size => pixelMapRef.current?.size(size),
-    );
-    const pixelMapDataReactionDisposer = reaction(
-      () => pixelMap.data,
-      data => pixelMapRef.current?.getCanvas()
-      .getContext()._context.putImageData(new ImageData())
+    stageRef.current?.absolutePosition({
+      x: window.innerWidth / 2, y: window.innerHeight / 2,
+    });
+
+    pixelMap.loadPixelMap(1, 1);
+
+    const pixelMapDataReactionDisposer = autorun(
+      () => {
+        values(pixelMap.data).map(({position, width, height, data}) => {
+          // pixelMapRef.current?.add()
+        });
+      },
     );
     return () => {
-      pixelMapSizeReactionDisposer();
+      pixelMapDataReactionDisposer();
     };
-    // if (stageRef.current != null) {
-    //   // stageRef.current.absolutePosition({x: window.innerWidth / 2, y: window.innerHeight / 2});
-    //   // stageRef.current?.getLayers().map((layer) => {
-    //   //   layer.getCanvas().getContext()._context.imageSmoothingEnabled = false;
-    //   // });
-    //   // pixelMap.loadPixelMap(1, 1);
-    //   // pixelMap.loadPixelMap(1, -1);
-    //   // pixelMap.loadPixelMap(-1, 1);
-    // }
   }, [stageRef.current]);
 
   const [images, setImages] = useState<{ x: number, y: number, data: HTMLCanvasElement }[]>([]);
@@ -50,12 +42,13 @@ export function MainStage() {
     //   const images: { x: number, y: number, data: HTMLCanvasElement }[] = [];
     //   for (let x of horizontalIndex) {
     //     for (let y of verticalIndex) {
-    //       const response = await fetch(`http://192.168.0.27:8080/board/bitmap/${x}/${y}`);
+    //       const response = await fetch(`http://localhost:8080/board/bitmap/${x}/${y}`);
     //       const buffer = await response.arrayBuffer();
     //       const bitmap = new Uint8ClampedArray(buffer);
-    //       const imageData = new Uint32Array(buffer.byteLength).map((value, index) => (
-    //         bitmap[index] > 0 ? Buffer.from(Uint32Array.of(255, 100, 100, 100)).readUInt32BE(0) : 0
-    //       ));
+    //       const imageData = new Uint32Array(buffer.byteLength).map((value, index) => {
+    //         const color = colors[bitmap[index]];
+    //         return parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
+    //       });
     //       const canvas: HTMLCanvasElement = document.createElement("canvas");
     //       canvas.width = 480;
     //       canvas.height = 270;
@@ -94,7 +87,7 @@ export function MainStage() {
 
   return (
     <Stage
-      scaleX={40} scaleY={40}
+      scaleX={4} scaleY={4}
       ref={stageRef}
       draggable
       onWheel={wheelStage}
@@ -102,17 +95,18 @@ export function MainStage() {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Layer>
-        <Rect x={-2} y={-2} height={4} width={4} fill="red" />
-        <Group>
-          {images.map(({x, y, data}) => {
-            const dx: number = x * 480 - (x > 0 ? 480 : 0);
-            const dy: number = y * 270 + (y < 0 ? 270 : 0);
-            return (<Image key={`${x}:${y}`} x={dx} y={-dy} image={data} />);
-          })}
-        </Group>
-      </Layer>
-      <Layer ref={pixelMapRef} />
+      <Layer ref={pixelMapRef} imageSmoothingEnabled={false} />
+      {/*<Layer imageSmoothingEnabled={false} >*/}
+      {/*  <Rect x={-2} y={-2} height={4} width={4} fill="red" />*/}
+      {/*  <Group>*/}
+      {/*    {images.map(({x, y, data}) => {*/}
+      {/*      const dx: number = x * 480 - (x > 0 ? 480 : 0);*/}
+      {/*      const dy: number = y * 270 + (y < 0 ? 270 : 0);*/}
+      {/*      return (<Image key={`${x}:${y}`} x={dx} y={-dy} image={data} />);*/}
+      {/*    })}*/}
+      {/*  </Group>*/}
+      {/*</Layer>*/}
+
     </Stage>
   );
 }

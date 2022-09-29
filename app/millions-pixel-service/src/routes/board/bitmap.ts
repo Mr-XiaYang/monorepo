@@ -5,7 +5,7 @@ import { commandOptions } from "@redis/client";
 export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   const emptyBitmap = Buffer.from(Uint8ClampedArray.from(
     new Array(480 * 270),
-    (_, i) => i % 2 ? 255 : 0,
+    (_, i) => i % 2 ? 15 : 0,
   ));
   const paramsSchema = Type.Object({
     x: Type.Any(),
