@@ -1,6 +1,6 @@
-import FastifyPlugin from "fastify-plugin";
-import redis, { RedisOptions } from "./client/redis";
+import fastifyPlugin from "fastify-plugin";
+import redis, { RedisPluginOptions } from "./client/redis";
 
-export default FastifyPlugin(async (fastify) => {
-  await fastify.register<RedisOptions>(redis, {url: "redis://default:redispw@localhost:49153"});
+export default fastifyPlugin(async (fastify) => {
+  await fastify.register<RedisPluginOptions>(redis, fastify.config.redisStorage);
 }, {name: "routes"});

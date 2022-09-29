@@ -10,31 +10,17 @@ declare module "fastify" {
   }
 }
 
-export type RedisOptions = RedisClientOptions & { namespace?: string; }
+export type RedisPluginOptions = RedisClientOptions
 
-export default fastifyPlugin<RedisOptions>(async (fastify, opts) => {
-  const {namespace, ...redisOptions} = opts;
-  const client: RedisClientType<any, any, any> = createClient(redisOptions);
-  if (namespace) {
-    if (!fastify.redis) {
-      fastify.decorate("redis", {});
-    }
-    if (fastify.redis[namespace]) {
-      throw new Error(`Redis '${namespace}' instance namespace has already been registered`);
-    }
-    fastify.redis[namespace] = client;
-    fastify.addHook("onClose", () => {
-      fastify.redis[namespace].quit();
-    });
-  } else {
-    if (fastify.redis) {
-      throw new Error("redis has already been registered");
-    }
-    fastify.decorate("redis", client);
-    fastify.addHook("onClose", () => {
-      fastify.redis.quit();
-    });
+export default fastifyPlugin<RedisPluginOptions>(async (fastify, opts) => {
+  if (fastify.redis) {
+    throw new Error("redis has already been registered");
   }
+  const client: RedisClientType<any, any, any> = createClient(opts);
+  fastify.decorate("redis", client);
+  fastify.addHook("onClose", () => {
+    client.quit();
+  });
   try {
     await client.connect();
     await client.ping();

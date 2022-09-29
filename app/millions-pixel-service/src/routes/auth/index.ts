@@ -1,6 +1,6 @@
-import FastifyPlugin from "fastify-plugin";
+import fastifyPlugin from "fastify-plugin";
 
-export default FastifyPlugin(async (fastify) => {
+export default fastifyPlugin(async (fastify) => {
   fastify.route({
     url: "/sign",
     method: "GET",

@@ -1,8 +1,8 @@
-import FastifyPlugin from "fastify-plugin";
+import fastifyPlugin from "fastify-plugin";
 import { Static, Type } from "@sinclair/typebox";
 import { commandOptions } from "@redis/client";
 
-export default FastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
+export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   const emptyBitmap = Buffer.from(Uint8ClampedArray.from(
     new Array(480 * 270),
     (_, i) => i % 2 ? 255 : 0,

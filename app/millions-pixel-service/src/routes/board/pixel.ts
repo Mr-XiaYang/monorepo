@@ -1,7 +1,7 @@
-import FastifyPlugin from "fastify-plugin";
+import fastifyPlugin from "fastify-plugin";
 
 
-export default FastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
+export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   fastify.route({
     url: `${opts.prefix}/pixel/:id`,
     method: "GET",

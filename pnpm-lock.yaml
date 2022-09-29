@@ -22,11 +22,13 @@ importers:
       '@types/node': ^18.7.21
       fastify: ^4.6.0
       fastify-plugin: ^4.2.1
+      lodash: ^4.17.21
       pino: ^8.6.0
       pino-pretty: ^9.1.0
       rollup: ^2.79.1
       rollup-plugin-terser: ^7.0.2
       typescript: ^4.6.4
+      yaml: ^2.1.1
     dependencies:
       '@fastify/cors': 8.1.0
       '@fastify/swagger': 7.6.0
@@ -35,8 +37,10 @@ importers:
       '@sinclair/typebox': 0.24.43
       fastify: 4.6.0
       fastify-plugin: 4.2.1
+      lodash: 4.17.21
       pino: 8.6.0
       pino-pretty: 9.1.0
+      yaml: 2.1.1
     devDependencies:
       '@rollup/plugin-alias': 3.1.9_rollup@2.79.1
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
@@ -1514,6 +1518,10 @@ packages:
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /loglevel-plugin-prefix/0.8.4:
     resolution: {integrity: sha512-WpG9CcFAOjz/FtNht+QJeGpvVl/cdR6P0z6OcXSkr8wFJOsV2GRj2j10JLfjuA4aYkcKCNIEqRGCyTife9R8/g==}
