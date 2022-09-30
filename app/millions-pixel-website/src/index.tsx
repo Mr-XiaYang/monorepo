@@ -1,26 +1,19 @@
-import React, { FunctionComponent, PropsWithChildren, useMemo } from "react";
-import ReactDOM from "react-dom/client";
-import "./global.css";
-import { MainStage } from "./containers/stage";
+import React, { useMemo } from "react";
+import { PointPosition } from "./components/point_position";
+import { MainStage } from "./components/stage";
 import { RootStoreContext } from "./context";
 import { RootStore } from "./store";
 
-const Fragment = import.meta.env.PROD ? React.Fragment : React.Fragment;
+import "./global.css";
 
 const App = () => {
   const store = useMemo(() => new RootStore(), []);
   return (
     <RootStoreContext.Provider value={store}>
-      <MainStage />
+        <MainStage />
+        <PointPosition />
     </RootStoreContext.Provider>
   );
 };
 
 export default App;
-
-// ReactDOM.createRoot(document.getElementById("root")!).render(
-//   <Fragment>
-//     <App />
-//   </Fragment>,
-// );
-

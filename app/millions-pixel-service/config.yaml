@@ -1,2 +1,2 @@
 redisStorage:
-  url: redis://default:redispw@localhost:49153
+  url:
