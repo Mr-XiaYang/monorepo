@@ -5,7 +5,7 @@ import type { RootStore } from "./root";
 
 
 async function loadData(index: number) {
-  const response = await fetch(`http://localhost:8080/board/bitmap/${index}`);
+  const response = await fetch(`http://192.168.3.69:8080/board/bitmap/${index}`);
   const buffer = await response.arrayBuffer();
   return new Uint8Array(buffer);
 }
@@ -14,6 +14,10 @@ export class PixelMapStore extends BaseStore {
   scale: number;
   width: number;
   height: number;
+  viewport: {
+    width: number;
+    height: number
+  }
   pointerPosition: null | {
     x: number
     y: number
@@ -27,14 +31,17 @@ export class PixelMapStore extends BaseStore {
     this.scale = 1;
     this.width = 1920;
     this.height = 1080;
+    this.viewport = { width: 0, height: 0 };
     this.pointerPosition = null;
     this.data = {};
     makeObservable(this, {
       scale: observable,
+      viewport: observable,
       pointerPosition: observable,
       data: observable,
       isDrawable: computed,
       updateScale: action.bound,
+      updateViewPort: action.bound,
       updatePointerPosition: action.bound,
     });
     this.loadPixelMap(1);
@@ -46,6 +53,10 @@ export class PixelMapStore extends BaseStore {
 
   updateScale(increment: boolean) {
     this.scale = Math.min(Math.max(this.scale + (increment ? 1 : -1), this.minScale), this.maxScale);
+  }
+
+  updateViewPort(width: number, height: number) {
+    this.viewport = { width, height };
   }
 
   updatePointerPosition(x: number, y: number) {
