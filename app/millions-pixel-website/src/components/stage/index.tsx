@@ -12,7 +12,7 @@ export const MainStage = () => {
 
   useEffect(() => {
     stageRef.current?.move({
-      x: window.innerWidth / 2, y: window.innerHeight / 2,
+      x: Math.floor(window.innerWidth / 2), y: Math.floor(window.innerHeight / 2),
     });
     pixelMap.loadPixelMap(1);
     pixelMap.updateViewPort(

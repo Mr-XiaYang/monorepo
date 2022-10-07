@@ -5,12 +5,15 @@ import type { RootStore } from "./root";
 
 
 async function loadData(index: number) {
-  const response = await fetch(`http://192.168.3.69:8080/board/bitmap/${index}`);
+  const response = await fetch(`http://localhost:8080/board/bitmap/${index}`);
   const buffer = await response.arrayBuffer();
   return new Uint8Array(buffer);
 }
 
 export class PixelMapStore extends BaseStore {
+  private minScale: number = 4;
+  private maxScale: number = 40;
+
   scale: number;
   width: number;
   height: number;
@@ -23,8 +26,6 @@ export class PixelMapStore extends BaseStore {
     y: number
   };
   data: Record<number, ArrayBuffer>;
-  private maxScale: number = 60;
-  private minScale: number = 4;
 
   constructor(root: RootStore) {
     super(root);
