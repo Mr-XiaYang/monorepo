@@ -79,23 +79,52 @@ export const MainStage = () => {
   }, [pixelMap]);
 
   const lastDist = useRef<number | undefined>();
+  const lastCenter = useRef<{ x: number, y: number } | undefined>();
   const gestureHandler = useCallback(function (e: Konva.KonvaEventObject<TouchEvent>) {
-    if (e.evt.touches.length === 2) {
+    if (stageRef.current && e.evt.touches.length === 2) {
       e.evt.preventDefault();
       const [touch1, touch2] = e.evt.touches;
-      const dist = Math.sqrt(Math.pow(touch2.clientX - touch1.clientX, 2) + Math.pow(touch2.clientY - touch1.clientY, 2));
-      if (lastDist.current === undefined) {
-        lastDist.current = dist;
+      if (stageRef.current.isDragging()) {
+        stageRef.current.stopDrag();
       }
-      const newScale = (pixelMap.scale * dist) / lastDist.current;
+      const center = {
+        x: (touch1.clientX + touch2.clientX) / 2,
+        y: (touch1.clientY + touch2.clientY) / 2,
+      };
+      if (!lastCenter.current) {
+        lastCenter.current = center;
+        return;
+      }
+
+      const dist = Math.sqrt(Math.pow(touch2.clientX - touch1.clientX, 2) + Math.pow(touch2.clientY - touch1.clientY, 2));
+      if (!lastDist.current) {
+        lastDist.current = dist;
+        return;
+      }
+
+      const pointTo = {
+        x: (center.x - stageRef.current!.x()) / pixelMap.scale,
+        y: (center.y - stageRef.current!.y()) / pixelMap.scale,
+      };
+      const newPoint = {
+        x: center.x - pointTo.x * pixelMap.scale + center.x - lastCenter.current.x,
+        y: center.y - pointTo.y * pixelMap.scale + center.y - lastCenter.current.y,
+      };
+      const newScale = pixelMap.scale * (dist / lastDist.current);
+
       lastDist.current = dist;
+      lastCenter.current = center;
       pixelMap.updateScale(newScale);
-      stageRef.current?.absolutePosition(
-        dragBoundHandler(stageRef.current?.absolutePosition()),
+      stageRef.current.position(newPoint);
+      stageRef.current.absolutePosition(
+        dragBoundHandler(stageRef.current.absolutePosition()),
       );
     }
   }, [pixelMap]);
-
+  const gestureEndHandler = useCallback(function (e: Konva.KonvaEventObject<TouchEvent>) {
+    lastDist.current = undefined;
+    lastCenter.current = undefined;
+  }, []);
   const dragBoundHandler = useCallback(function (pos: Vector2d): Vector2d {
     const dragDistanceX = pixelMap.width / 2 + 5;
     const dragDistanceY = pixelMap.height / 2 + 5;
@@ -132,6 +161,7 @@ export const MainStage = () => {
         onMouseMove={focusHandler}
         onWheel={scaleHandler}
         onTouchMove={gestureHandler}
+        onTouchEnd={gestureEndHandler}
       >
         <Observer render={() => (
           <Layer
