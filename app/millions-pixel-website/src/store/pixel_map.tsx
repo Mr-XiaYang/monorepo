@@ -78,7 +78,7 @@ export class PixelMapStore extends BaseStore {
   loadPixelMap(worldId: string) {
     loadData(worldId).then((buffer) => {
       runInAction(() => {
-        this.scale = this.maxScale;
+        this.scale = this.minScale;
         this.bitmap[worldId] = new Uint32Array(buffer.length).map((_, index) => {
           const color: string = colors[buffer[index]];
           return parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
@@ -96,10 +96,12 @@ export class PixelMapStore extends BaseStore {
     });
     const a = setInterval(() => {
       if (!this.pixels[worldId]) this.pixels[worldId] = [];
+      const x = Math.ceil(Math.random() * (this.width / 2));
+      const y = Math.ceil(Math.random() * (this.height / 2));
       this.pixels[worldId].push({
         worldId: worldId,
-        x: Math.ceil(Math.random() * (this.width / 2)),
-        y: Math.ceil(Math.random() * (this.height / 2)),
+        x: Math.random() < 0.5 ? x : -x,
+        y: Math.random() < 0.5 ? y : -y,
         color: Math.floor(Math.random() * 256),
       });
     }, 1);

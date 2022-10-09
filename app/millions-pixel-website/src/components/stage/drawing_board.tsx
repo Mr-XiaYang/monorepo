@@ -19,7 +19,6 @@ export const DrawingBoard: FunctionComponent<{ worldId: string }> = ({worldId}) 
     let lastImage: ImageBitmap | null;
 
     function animationFrameHandle() {
-      const startTime = Date.now();
       new Promise<ImageBitmap | null>((resolve) => {
         if (pixelMap.bitmap[worldId]) {
           if (!lastImage || !!pixelMap.pixels[worldId]?.length) {
@@ -48,7 +47,6 @@ export const DrawingBoard: FunctionComponent<{ worldId: string }> = ({worldId}) 
         if (bitmap) {
           imageRef.current?.image(bitmap);
         }
-        // console.log("耗时:", Date.now() - startTime, "ms.");
         handleId = window.requestAnimationFrame(animationFrameHandle);
       });
     }
