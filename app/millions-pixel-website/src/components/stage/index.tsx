@@ -1,29 +1,43 @@
 import Konva from "konva";
 import { Vector2d } from "konva/lib/types";
-import { autorun, keys } from "mobx";
+import { autorun } from "mobx";
 import { Observer } from "mobx-react";
 import React, { useCallback, useEffect, useRef } from "react";
 
-import { Image, Layer, Rect, Stage } from "react-konva";
+import { Layer, Rect, Stage } from "react-konva";
+import { RootStoreContext } from "../../context";
 import { useStore } from "../../hooks";
+import { DrawingBoard } from "./drawing_board";
 
 Konva.hitOnDragEnabled = true;
 export const MainStage = () => {
-  const {pixelMap} = useStore();
+  const rootStore = useStore();
+  const {pixelMap} = rootStore;
   const stageRef = useRef<Konva.Stage | null>(null);
 
   useEffect(() => {
+    const viewPort = {
+      width: window.innerWidth || document.documentElement.clientWidth
+        || document.getElementsByTagName("body")[0].clientWidth,
+      height: window.innerHeight || document.documentElement.clientHeight
+        || document.getElementsByTagName("body")[0].clientHeight,
+    };
+    pixelMap.updateViewPort(viewPort);
     stageRef.current?.move({
-      x: Math.floor(window.innerWidth / 2), y: Math.floor(window.innerHeight / 2),
+      x: Math.round(viewPort.width / 2), y: Math.round(viewPort.height / 2),
     });
-    pixelMap.loadPixelMap(1);
-    pixelMap.updateViewPort(
-      window.innerWidth || document.documentElement.clientWidth
-      || document.getElementsByTagName("body")[0].clientWidth,
-      window.innerHeight || document.documentElement.clientHeight
-      || document.getElementsByTagName("body")[0].clientHeight,
-    );
+  }, [pixelMap]);
 
+  useEffect(() => {
+    const resizeEventListener = () => pixelMap.updateViewPort(
+      {
+        width: window.innerWidth || document.documentElement.clientWidth
+          || document.getElementsByTagName("body")[0].clientWidth,
+        height: window.innerHeight || document.documentElement.clientHeight
+          || document.getElementsByTagName("body")[0].clientHeight,
+      },
+    );
+    window.addEventListener("resize", resizeEventListener);
     const disposers = [
       autorun(() => {
         stageRef.current?.scaleX(pixelMap.scale);
@@ -35,19 +49,9 @@ export const MainStage = () => {
       }),
     ];
     return () => {
+      window.removeEventListener("resize", resizeEventListener);
       disposers.forEach(disposer => disposer());
     };
-  }, []);
-
-  useEffect(() => {
-    const resize = () => pixelMap.updateViewPort(
-      window.innerWidth || document.documentElement.clientWidth
-      || document.getElementsByTagName("body")[0].clientWidth,
-      window.innerHeight || document.documentElement.clientHeight
-      || document.getElementsByTagName("body")[0].clientHeight,
-    );
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
   }, [pixelMap]);
 
   const scaleHandler = useCallback(function (e: Konva.KonvaEventObject<WheelEvent>) {
@@ -133,23 +137,21 @@ export const MainStage = () => {
     const maxY = dragDistanceY * pixelMap.scale;
     const minY = -(dragDistanceY * pixelMap.scale) + pixelMap.viewport.height;
     return {
-      x: pos.x >= maxX ? maxX : pos.x <= minX ? minX : pos.x,
-      y: pos.y >= maxY ? maxY : pos.y <= minY ? minY : pos.y,
+      x: Math.round(pos.x >= maxX ? maxX : pos.x <= minX ? minX : pos.x),
+      y: Math.round(pos.y >= maxY ? maxY : pos.y <= minY ? minY : pos.y),
     };
   }, [pixelMap]);
 
   const focusHandler = useCallback(function (e: Konva.KonvaEventObject<Event>) {
     e.evt.preventDefault();
-    const pointer = stageRef.current?.absolutePosition();
-    console.log(pointer);
     const {x, y} = e.currentTarget.getRelativePointerPosition();
     pixelMap.updateFocusPosition(Math.floor(x > 0 ? x + 1 : x), -Math.floor(y > 0 ? y + 1 : y));
   }, [pixelMap]);
 
-  const mouseOverRect = useCallback(function (e: Konva.KonvaEventObject<MouseEvent>) {
+  const blurHandler = useCallback(function (e: Konva.KonvaEventObject<MouseEvent>) {
     e.evt.preventDefault();
-    // console.log(e.currentTarget.getClientRect());
-  }, []);
+    pixelMap.updateFocusPosition();
+  }, [pixelMap]);
 
   return (
     <Observer render={() => (
@@ -159,43 +161,22 @@ export const MainStage = () => {
         dragBoundFunc={dragBoundHandler}
         onTap={focusHandler}
         onMouseMove={focusHandler}
+        onMouseLeave={blurHandler}
         onWheel={scaleHandler}
         onTouchMove={gestureHandler}
         onTouchEnd={gestureEndHandler}
       >
-        <Observer render={() => (
-          <Layer
-            imageSmoothingEnabled={false}>
-            {keys(pixelMap.data).map((key) => {
-              return <Observer key={key.toString()} render={() => {
-                const canvas: HTMLCanvasElement = document.createElement("canvas");
-                canvas.width = pixelMap.width;
-                canvas.height = pixelMap.height;
-                const canvasContext = canvas.getContext("2d", {willReadFrequently: true})!;
-                canvasContext.putImageData(
-                  new ImageData(
-                    new Uint8ClampedArray(pixelMap.data[key as number]), pixelMap.width, pixelMap.height,
-                  ), 0, 0,
-                );
-                return (
-                  <Image
-                    x={0} y={0}
-                    offsetX={pixelMap.width / 2}
-                    offsetY={pixelMap.height / 2}
-                    image={canvas} />
-                );
-              }} />;
-            })}
-            <Rect x={-1} y={-1} width={2} height={2} fill="red" />
+        <RootStoreContext.Provider value={rootStore}>
+          <DrawingBoard worldId={"1"} />
+          <Layer imageSmoothingEnabled={false}>
             <Observer render={() => !(pixelMap.isDrawable && pixelMap.focusPosition) ? null : (
               <Rect
-                onMouseMove={mouseOverRect}
                 x={(pixelMap.focusPosition.x > 0 ? pixelMap.focusPosition.x - 1 : pixelMap.focusPosition.x)}
                 y={-pixelMap.focusPosition.y > 0 ? -pixelMap.focusPosition.y - 1 : -pixelMap.focusPosition.y}
                 height={1} width={1} fill={"#eccfa4"} />
             )} />
           </Layer>
-        )} />
+        </RootStoreContext.Provider>
       </Stage>
     )} />
   );

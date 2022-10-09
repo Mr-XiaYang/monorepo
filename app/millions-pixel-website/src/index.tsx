@@ -4,14 +4,16 @@ import { MainStage } from "./components/stage";
 import { RootStoreContext } from "./context";
 import { RootStore } from "./store";
 
+import "./utils/fixRequestAnimationFrame";
+
 import "./global.css";
 
 const App = () => {
   const store = useMemo(() => new RootStore(), []);
   return (
     <RootStoreContext.Provider value={store}>
-        <MainStage />
-        <PointPosition />
+      <MainStage />
+      <PointPosition />
     </RootStoreContext.Provider>
   );
 };
