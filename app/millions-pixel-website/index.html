@@ -15,13 +15,7 @@
   import App from "./src/index";
   
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  root.render(
-      React.createElement(
-          import.meta.env.PROD ? React.Fragment : React.Fragment,
-          {},
-          React.createElement(App)
-      )
-  )
+  root.render(React.createElement(App))
 </script>
 </body>
 </html>

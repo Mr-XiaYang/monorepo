@@ -22,7 +22,7 @@ const isWatch = process.env.ROLLUP_WATCH === 'true';
 export default commandLineArgs => {
   delete commandLineArgs.input;
   return {
-    input: "./src/array_extend.ts",
+    input: "./src/index.ts",
 
     output: {
       file: './dist/index.js', format: 'cjs', exports: 'named', sourcemap: true

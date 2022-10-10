@@ -1,0 +1,28 @@
+{
+  "name": "@m_xy/json_schema_buffer",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@7.13.3",
+  "scripts": {
+    "dev": "rollup -c --environment NODE_ENV:development",
+    "build": "rimraf lib && tsc && rollup -c --environment NODE_ENV:production"
+  },
+  "dependencies": {
+    "@m_xy/array_extend": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "rimraf": "latest",
+    "rollup": "latest",
+    "@rollup/plugin-sucrase": "latest",
+    "@rollup/plugin-node-resolve": "latest",
+    "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-json": "latest",
+    "@rollup/plugin-replace": "latest",
+    "@rollup/plugin-alias": "latest",
+    "rollup-plugin-terser": "latest",
+    "typescript": "latest"
+  },
+  "peerDependencies": {
+  }
+}

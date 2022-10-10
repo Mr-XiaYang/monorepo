@@ -1,5 +1,5 @@
 {
-  "name": "@mr.xiayang/server",
+  "name": "@m_xy/server",
   "version": "1.0.0",
   "type": "module",
   "main": "./lib/index.js",

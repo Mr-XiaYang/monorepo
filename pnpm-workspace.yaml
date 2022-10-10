@@ -7,5 +7,6 @@ packages:
   - packages/packer
   - packages/server
   - packages/model
+  - packages/json_schema_buffer
   - packages/adapter/*
   - packages/utils/*

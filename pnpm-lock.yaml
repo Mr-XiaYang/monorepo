@@ -3,7 +3,10 @@ lockfileVersion: 5.4
 importers:
 
   .:
-    specifiers: {}
+    specifiers:
+      typescript: latest
+    devDependencies:
+      typescript: 4.8.4
 
   app/millions-pixel-service:
     specifiers:
@@ -87,13 +90,13 @@ importers:
 
   app/zero-base-manage:
     specifiers:
-      '@mr.xiayang/server': workspace:*
+      '@m_xy/server': workspace:*
       '@types/node': ^18.7.14
       '@zero-base/service': workspace:*
       esbuild: ^0.15.7
       typescript: ^4.8.2
     dependencies:
-      '@mr.xiayang/server': link:../../packages/server
+      '@m_xy/server': link:../../packages/server
       '@zero-base/service': link:../zero-base-service
     devDependencies:
       '@types/node': 18.7.18
@@ -102,14 +105,43 @@ importers:
 
   app/zero-base-service:
     specifiers:
-      '@mr.xiayang/server': workspace:*
+      '@m_xy/server': workspace:*
       '@types/node': ^18.7.14
       typescript: ^4.8.2
     dependencies:
-      '@mr.xiayang/server': link:../../packages/server
+      '@m_xy/server': link:../../packages/server
     devDependencies:
       '@types/node': 18.7.18
       typescript: 4.8.3
+
+  packages/json_schema_buffer:
+    specifiers:
+      '@m_xy/array_extend': workspace:*
+      '@rollup/plugin-alias': latest
+      '@rollup/plugin-commonjs': latest
+      '@rollup/plugin-json': latest
+      '@rollup/plugin-node-resolve': latest
+      '@rollup/plugin-replace': latest
+      '@rollup/plugin-sucrase': latest
+      '@types/node': latest
+      rimraf: latest
+      rollup: latest
+      rollup-plugin-terser: latest
+      typescript: latest
+    dependencies:
+      '@m_xy/array_extend': link:../utils/array_extend
+    devDependencies:
+      '@rollup/plugin-alias': 4.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 23.0.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 14.1.0_rollup@2.79.1
+      '@rollup/plugin-replace': 4.0.0_rollup@2.79.1
+      '@rollup/plugin-sucrase': 4.0.4_rollup@2.79.1
+      '@types/node': 18.8.3
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-terser: 7.0.2_rollup@2.79.1
+      typescript: 4.8.4
 
   packages/packer:
     specifiers:
@@ -150,6 +182,32 @@ importers:
       '@types/node': 18.7.14
       '@types/ws': 8.5.3
       typescript: 4.8.2
+
+  packages/utils/array_extend:
+    specifiers:
+      '@rollup/plugin-alias': latest
+      '@rollup/plugin-commonjs': latest
+      '@rollup/plugin-json': latest
+      '@rollup/plugin-node-resolve': latest
+      '@rollup/plugin-replace': latest
+      '@rollup/plugin-sucrase': latest
+      '@types/node': latest
+      rimraf: latest
+      rollup: latest
+      rollup-plugin-terser: latest
+      typescript: latest
+    devDependencies:
+      '@rollup/plugin-alias': 4.0.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 23.0.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 14.1.0_rollup@2.79.1
+      '@rollup/plugin-replace': 4.0.0_rollup@2.79.1
+      '@rollup/plugin-sucrase': 4.0.4_rollup@2.79.1
+      '@types/node': 18.8.3
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-terser: 7.0.2_rollup@2.79.1
+      typescript: 4.8.4
 
 packages:
 
@@ -575,6 +633,19 @@ packages:
       slash: 3.0.0
     dev: true
 
+  /@rollup/plugin-alias/4.0.0_rollup@2.79.1:
+    resolution: {integrity: sha512-fGRWzM2F6wXnzAqn4Db8SdB/2Ree0u2XOQaaTy9mhqA35NmUzJXevMBUcpZywPF2MIUUAw+SKfWogKxFSPh+Qw==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 2.79.1
+      slash: 4.0.0
+    dev: true
+
   /@rollup/plugin-commonjs/22.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-//NdP6iIwPbMTcazYsiBMbJW7gfmpHom33u1beiIoHDEM0Q9clvtQB1T0efvMqHeKsGohiHo97BCPCkBXdscwg==}
     engines: {node: '>= 12.0.0'}
@@ -588,6 +659,24 @@ packages:
       is-reference: 1.2.1
       magic-string: 0.25.9
       resolve: 1.22.1
+      rollup: 2.79.1
+    dev: true
+
+  /@rollup/plugin-commonjs/23.0.0_rollup@2.79.1:
+    resolution: {integrity: sha512-JbrTRyDNtLQj/rhl7RFUuYXwQ2fac+33oLDAu2k++WD95zweyo28UAomLVA0JMGx4vmCa7Nw4T6k/1F6lelExg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.68.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 4.2.1
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 8.0.3
+      is-reference: 1.2.1
+      magic-string: 0.26.7
       rollup: 2.79.1
     dev: true
 
@@ -697,6 +786,10 @@ packages:
     resolution: {integrity: sha512-rLFzK5bhM0YPyCoTC8bolBjMk7bwnZ8qeZUBslBfjZQou2ssJdWslx9CZ8DGM+Dx7QXQiiTVZ/6QO6kwtHkZCA==}
     dev: true
 
+  /@types/node/18.8.3:
+    resolution: {integrity: sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==}
+    dev: true
+
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
@@ -727,7 +820,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.7.21
+      '@types/node': 18.8.3
     dev: true
 
   /@types/scheduler/0.16.2:
@@ -867,7 +960,6 @@ packages:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
     dependencies:
       balanced-match: 1.0.2
-    dev: false
 
   /browserslist/4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
@@ -1414,7 +1506,6 @@ packages:
       inherits: 2.0.4
       minimatch: 5.1.0
       once: 1.4.0
-    dev: false
 
   /globals/11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -1507,7 +1598,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.7.21
+      '@types/node': 18.8.3
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -1603,6 +1694,13 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /magic-string/0.26.7:
+    resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
+    engines: {node: '>=12'}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: true
+
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
     dev: true
@@ -1624,7 +1722,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
-    dev: false
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
@@ -1961,6 +2058,13 @@ packages:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: false
 
+  /rimraf/3.0.2:
+    resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
+    dependencies:
+      glob: 7.1.6
+    dev: true
+
   /rollup-plugin-terser/7.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
     peerDependencies:
@@ -2068,6 +2172,11 @@ packages:
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+    dev: true
+
+  /slash/4.0.0:
+    resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
+    engines: {node: '>=12'}
     dev: true
 
   /sonic-boom/3.2.0:
@@ -2205,6 +2314,12 @@ packages:
 
   /typescript/4.8.3:
     resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
