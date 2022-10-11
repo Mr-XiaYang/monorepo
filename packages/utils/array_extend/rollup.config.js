@@ -9,6 +9,8 @@ import {terser} from "rollup-plugin-terser";
 import {defineConfig} from 'rollup';
 
 import packageConfig from "./package.json";
+import path from "path";
+import fs from "fs";
 
 const dependencies = []
   .concat(Object.keys(packageConfig.dependencies ?? {}))
@@ -20,7 +22,10 @@ const isDev = process.env.NODE_ENV === 'development';
 const isWatch = process.env.ROLLUP_WATCH === 'true';
 
 export default defineConfig({
-  input: ["./src/index.ts", "./src/filter.ts", "./src/remove.ts", "./src/sort.ts", "./src/math.ts",],
+  input: fs.readdirSync("./src").map((filename)=> {
+    const filePath = path.join("./src", filename);
+    return fs.statSync(filePath).isFile() ? filePath : null
+  }).filter(Boolean),
 
   output: [{
     dir: "./lib", format: 'commonjs', exports: 'named', sourcemap: isDev,

@@ -1,5 +1,9 @@
-import "./test"
-import "@m_xy/array_extend/remove";
+import "@m_xy/array_extend/group_by";
 
-console.log([1, 2, 3, 3].min());
-console.log([1, 2, 3, 3].removeDuplicate());
+// console.log([1, 2, 3, 3].min());
+// console.log([1, 2, 3, 3].max());
+// console.log([1, 2, 3, 3].sum());
+// console.log([1, 2, 3, 3].average());
+// console.log([1, 2, 3, 3].removeOne(1));
+// console.log([1, 2, 3, 3].removeDuplicate());
+console.log([1, 2, 3, 3].groupBy((v) => v % 2));

@@ -2,6 +2,8 @@
   "name": "@m_xy/array_extend",
   "version": "1.0.0",
   "type": "module",
+  "main": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "require": {
@@ -35,12 +37,10 @@
     },
     "./package.json": "./package.json"
   },
-
   "scripts": {
     "build": "rimraf tsconfig.tsbuildinfo lib && tsc && rollup -c --environment NODE_ENV:production",
     "publish": "npm run build && npm publish"
   },
-
   "packageManager": "pnpm@7.13.3",
   "dependencies": {
   },
@@ -61,6 +61,7 @@
   },
   "files": [
     "lib",
+    "types",
     "package.json"
   ]
 }
