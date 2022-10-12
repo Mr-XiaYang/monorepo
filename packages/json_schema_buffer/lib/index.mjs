@@ -1,1 +1,0 @@
-Array.prototype.groupBy||(Array.prototype.groupBy=function(r){return Object.entries(this.reduce(((e,o)=>{let t=r(o);return e[t]||(e[t]=[]),e[t].push(o),e}),{})).map((([r,e])=>(e.groupKey=r,e)))}),console.log([1,2,3,3].groupBy((r=>r%2)));

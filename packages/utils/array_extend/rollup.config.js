@@ -4,7 +4,7 @@ import json from '@rollup/plugin-json';
 import replace from "@rollup/plugin-replace";
 import alias from "@rollup/plugin-alias";
 import glob from "glob"
-import {swc, minify} from "rollup-plugin-swc3";
+import {swc} from "rollup-plugin-swc3";
 
 import {defineConfig} from 'rollup';
 
@@ -56,7 +56,7 @@ const config = defineConfig({
     }),
 
     swc({
-      tsconfig: "tsconfig.build.json",
+      tsconfig: "tsconfig.json",
       minify: isProd
     }),
 

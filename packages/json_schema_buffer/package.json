@@ -4,26 +4,26 @@
   "type": "module",
   "packageManager": "pnpm@7.13.3",
   "scripts": {
-    "dev": "rollup -c --environment NODE_ENV:development",
-    "build": "rimraf lib && tsc && rollup -c --environment NODE_ENV:production"
+    "dev": "rollup -c -w --environment NODE_ENV:development",
+    "prepublish": "rimraf lib tsconfig.tsbuildinfo",
+    "build": "rollup -c --environment NODE_ENV:production"
   },
   "dependencies": {
     "@m_xy/array_extend": "workspace:*"
   },
   "devDependencies": {
+    "@m_xy/tsconfig_base": "workspace:*",
+    "@rollup/plugin-alias": "latest",
+    "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-json": "latest",
+    "@rollup/plugin-node-resolve": "latest",
+    "@rollup/plugin-replace": "latest",
+    "@rollup/plugin-run": "latest",
+    "@swc/core": "latest",
     "@types/node": "latest",
     "rimraf": "latest",
     "rollup": "latest",
-    "@m_xy/tsconfig_base": "workspace:*",
-    "@rollup/plugin-sucrase": "latest",
-    "@rollup/plugin-node-resolve": "latest",
-    "@rollup/plugin-commonjs": "latest",
-    "@rollup/plugin-json": "latest",
-    "@rollup/plugin-replace": "latest",
-    "@rollup/plugin-alias": "latest",
-    "rollup-plugin-terser": "latest",
+    "rollup-plugin-swc3": "latest",
     "typescript": "latest"
-  },
-  "peerDependencies": {
   }
 }

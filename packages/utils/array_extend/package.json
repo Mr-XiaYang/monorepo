@@ -38,7 +38,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "typing": "tsc -p ./tsconfig.build.json",
+    "typing": "tsc -p ./tsconfig.json",
     "build": "rollup -c --environment NODE_ENV:production",
     "prepublish": "rimraf tsconfig.tsbuildinfo lib",
     "publish": "npm run typing && npm run build && npm publish",

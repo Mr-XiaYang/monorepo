@@ -1,13 +1,24 @@
 {
   "extends": "@m_xy/tsconfig_base/node_next.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "composite": true,
     "noEmit": false,
+    "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "lib"
+
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "src",
+    "paths": {
+      "@m_xy/array_extend": [
+        "../node_modules/@m_xy/array_extend/src/index.ts"
+      ],
+      "@m_xy/array_extend/*": [
+        "../node_modules/@m_xy/array_extend/src/*.ts"
+      ]
+    }
   },
   "include": [
-    "src/**/*",
-    "../package.json"
+    "src/**/*"
   ]
 }
