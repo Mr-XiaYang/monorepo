@@ -21,7 +21,7 @@ export default defineConfig(
 
     output: [{
       dir: "./lib", format: 'commonjs', exports: 'named',
-      entryFileNames: ({name}) => `${name}.mjs`,
+      entryFileNames: ({name}) => `${name}.cjs`,
     }, {
       dir: "./lib", format: 'module', exports: 'named',
       entryFileNames: ({name}) => `${name}.mjs`,

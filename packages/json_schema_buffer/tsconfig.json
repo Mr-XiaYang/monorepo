@@ -5,7 +5,8 @@
     "noEmit": false,
     "declaration": true,
     "emitDeclarationOnly": true,
-
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "rootDir": "src",
     "outDir": "lib",
     "baseUrl": "src",

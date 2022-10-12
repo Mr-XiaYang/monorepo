@@ -9,7 +9,8 @@
     "build": "rollup -c --environment NODE_ENV:production"
   },
   "dependencies": {
-    "@m_xy/array_extend": "workspace:*"
+    "@m_xy/array_extend": "workspace:*",
+    "@sinclair/typebox": "^0.24.43"
   },
   "devDependencies": {
     "@m_xy/tsconfig_base": "workspace:*",
