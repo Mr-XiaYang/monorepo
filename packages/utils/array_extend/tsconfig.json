@@ -1,6 +1,8 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@m_xy/tsconfig_base/node_next.json",
   "compilerOptions": {
+    "target": "ES3",
+    "declaration": true,
     "rootDir": "./src",
     "noEmit": false,
     "emitDeclarationOnly": true,

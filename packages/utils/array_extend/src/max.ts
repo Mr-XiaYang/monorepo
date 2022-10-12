@@ -11,7 +11,7 @@ if (!Array.prototype.max) {
 
     for (let i = 0; i < this.length; ++i) {
       let temp = typeof mapper == "function" ? mapper(this[i], i, this) : this[i];
-      if (max === undefined || temp > max) {
+      if (typeof temp === "number" && (max === undefined || temp > max)) {
         max = temp;
         maxIndex = i;
       }

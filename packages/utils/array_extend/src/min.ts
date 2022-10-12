@@ -10,9 +10,11 @@ if (!Array.prototype.min) {
 
     for (let i = 0; i < this.length; ++i) {
       let temp = typeof mapper == "function" ? mapper(this[i], i, this) : this[i];
-      if (min === undefined || temp < min) {
-        min = temp;
-        minIndex = i;
+      if (typeof temp === "number") {
+        if (min === undefined || temp < min) {
+          min = temp;
+          minIndex = i;
+        }
       }
     }
     return minIndex !== undefined ? this[minIndex] : null;

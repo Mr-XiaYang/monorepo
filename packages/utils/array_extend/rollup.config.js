@@ -1,16 +1,14 @@
-import sucrase from "@rollup/plugin-sucrase"
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from "@rollup/plugin-replace";
 import alias from "@rollup/plugin-alias";
-import {terser} from "rollup-plugin-terser";
+import glob from "glob"
+import {swc, minify} from "rollup-plugin-swc3";
 
 import {defineConfig} from 'rollup';
 
-import packageConfig from "./package.json";
-import path from "path";
-import fs from "fs";
+import packageConfig from "./package.json" assert { type: "json" };
 
 const dependencies = []
   .concat(Object.keys(packageConfig.dependencies ?? {}))
@@ -19,32 +17,22 @@ const dependencies = []
 
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
+const isTest = process.env.NODE_ENV === 'test';
 const isWatch = process.env.ROLLUP_WATCH === 'true';
 
-export default defineConfig({
-  input: fs.readdirSync("./src").map((filename)=> {
-    const filePath = path.join("./src", filename);
-    return fs.statSync(filePath).isFile() ? filePath : null
-  }).filter(Boolean),
+const config = defineConfig({
+  input : glob.sync("src/*.ts", {
+    ignore:  ["**/*.test.ts", "**/*.spec.ts"]
+  }),
 
-  output: [{
-    dir: "./lib", format: 'commonjs', exports: 'named', sourcemap: isDev,
-    entryFileNames: (info) => info.name + '.cjs',
+  output : [{
+    dir: "./lib", format: 'commonjs', exports: 'named', entryFileNames: (info) => info.name + '.cjs',
   }, {
-    dir: "./lib", format: 'module', exports: 'named', sourcemap: isDev,
-    entryFileNames: (info) => info.name + '.mjs',
+    dir: "./lib", format: 'module', exports: 'named', entryFileNames: (info) => info.name + '.mjs',
   }],
 
   watch: {
-    include: './src/**'
-  },
-
-  onwarn: (warning) => {
-    if (warning.code !== 'CIRCULAR_DEPENDENCY') {
-      console.warn(`(!) ${warning.message}`) // eslint-disable-line no-console
-    } else {
-      console.info(`(!) ${warning.message}`) // eslint-disable-line no-console
-    }
+    include: 'src/**'
   },
 
   external: id => !!dependencies.find(dep => dep === id || id.startsWith(`${dep}/`)),
@@ -67,9 +55,12 @@ export default defineConfig({
       }
     }),
 
-    sucrase({
-      exclude: ['node_modules/**'], transforms: ["typescript"],
+    swc({
+      tsconfig: "tsconfig.build.json",
+      minify: isProd
     }),
 
-    isProd && terser(),].filter(Boolean)
+  ].filter(Boolean)
 })
+
+export default config;

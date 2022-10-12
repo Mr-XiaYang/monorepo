@@ -38,33 +38,26 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "typing": "tsc -p ./tsconfig.build.json",
-    "build": "rollup -c --environment NODE_ENV:production",
-    "prepublish": "rimraf tsconfig.tsbuildinfo lib",
-    "publish": "npm run typing && npm run build && npm publish",
-    "test": "jest"
+    "build": "rimraf tsconfig.tsbuildinfo lib && tsc && rollup -c --environment NODE_ENV:production",
+    "publish": "npm run build && npm publish"
   },
   "packageManager": "pnpm@7.13.3",
-  "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "@m_xy/tsconfig_base": "workspace:*",
-    "@rollup/plugin-alias": "latest",
-    "@rollup/plugin-commonjs": "latest",
-    "@rollup/plugin-json": "latest",
-    "@rollup/plugin-node-resolve": "latest",
-    "@rollup/plugin-replace": "latest",
-    "@swc/core": "latest",
-    "@swc/jest": "latest",
-    "@types/glob": "latest",
-    "@types/jest": "latest",
     "@types/node": "latest",
-    "glob": "latest",
-    "jest": "latest",
     "rimraf": "latest",
     "rollup": "latest",
-    "rollup-plugin-swc3": "latest",
+    "@rollup/plugin-sucrase": "latest",
+    "@rollup/plugin-node-resolve": "latest",
+    "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-json": "latest",
+    "@rollup/plugin-replace": "latest",
+    "@rollup/plugin-alias": "latest",
+    "rollup-plugin-terser": "latest",
     "typescript": "latest"
+  },
+  "peerDependencies": {
   },
   "files": [
     "lib",
