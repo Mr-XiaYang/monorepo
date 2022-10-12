@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$/app/millions-pixel-service">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/app/millions-pixel-service/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/app/millions-pixel-website">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/app/millions-pixel-website/src" />
+            <path value="file://$PROJECT_DIR$/app/millions-pixel-website/public" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/app/zero-base-manage">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/app/zero-base-manage/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/app/zero-base-service">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/app/zero-base-service/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/packages/json_schema_buffer">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/json_schema_buffer/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/packages/packer">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/packer/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/packages/server">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/server/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+      <entry url="file://$PROJECT_DIR$/packages/utils/array_extend">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/utils/array_extend/src" />
+            <path value="file://$PROJECT_DIR$/packages/utils/array_extend/types" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>

@@ -6,7 +6,22 @@
     <content url="file://$MODULE_DIR$/app/millions-pixel-website" />
     <content url="file://$MODULE_DIR$/app/zero-base-manage" />
     <content url="file://$MODULE_DIR$/app/zero-base-service" />
-    <content url="file://$MODULE_DIR$/packages" />
+    <content url="file://$MODULE_DIR$/packages/adapter" />
+    <content url="file://$MODULE_DIR$/packages/json_schema_buffer">
+      <excludeFolder url="file://$MODULE_DIR$/packages/json_schema_buffer/lib" />
+    </content>
+    <content url="file://$MODULE_DIR$/packages/model" />
+    <content url="file://$MODULE_DIR$/packages/packer">
+      <sourceFolder url="file://$MODULE_DIR$/packages/packer/lib" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/packer/lib" />
+    </content>
+    <content url="file://$MODULE_DIR$/packages/server" />
+    <content url="file://$MODULE_DIR$/packages/utils/array_extend">
+      <sourceFolder url="file://$MODULE_DIR$/packages/utils/array_extend/__tests__" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/utils/array_extend/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/array_extend/lib" />
+    </content>
+    <content url="file://$MODULE_DIR$/packages/utils/tsconfig_base" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ts-external-references" level="project" />

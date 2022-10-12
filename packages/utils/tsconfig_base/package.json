@@ -1,67 +1,14 @@
 {
-  "name": "@m_xy/array_extend",
+  "name": "@m_xy/tsconfig_base",
   "version": "1.0.0",
-  "type": "module",
-  "main": "./lib/index.mjs",
-  "types": "./lib/index.d.ts",
-  "exports": {
-    ".": {
-      "require": {
-        "types": "./lib/index.d.ts",
-        "default": "./lib/index.cjs"
-      },
-      "import": {
-        "types": "./lib/index.d.ts",
-        "default": "./lib/index.mjs"
-      }
-    },
-    "./*": {
-      "require": {
-        "types": "./lib/*.d.ts",
-        "default": "./lib/*.cjs"
-      },
-      "import": {
-        "types": "./lib/*.d.ts",
-        "default": "./lib/*.mjs"
-      }
-    },
-    "./*.js": {
-      "require": {
-        "types": "./lib/*.d.ts",
-        "default": "./lib/*.cjs"
-      },
-      "import": {
-        "types": "./lib/*.d.ts",
-        "default": "./lib/*.mjs"
-      }
-    },
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "build": "rimraf tsconfig.tsbuildinfo lib && tsc && rollup -c --environment NODE_ENV:production",
-    "publish": "npm run build && npm publish"
-  },
-  "packageManager": "pnpm@7.13.3",
   "dependencies": {
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "rimraf": "latest",
-    "rollup": "latest",
-    "@rollup/plugin-sucrase": "latest",
-    "@rollup/plugin-node-resolve": "latest",
-    "@rollup/plugin-commonjs": "latest",
-    "@rollup/plugin-json": "latest",
-    "@rollup/plugin-replace": "latest",
-    "@rollup/plugin-alias": "latest",
-    "rollup-plugin-terser": "latest",
-    "typescript": "latest"
   },
   "peerDependencies": {
   },
   "files": [
-    "lib",
-    "types",
+    "node_next.json",
     "package.json"
   ]
 }

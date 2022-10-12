@@ -14,6 +14,7 @@
     "@types/node": "latest",
     "rimraf": "latest",
     "rollup": "latest",
+    "@m_xy/tsconfig_base": "workspace:*",
     "@rollup/plugin-sucrase": "latest",
     "@rollup/plugin-node-resolve": "latest",
     "@rollup/plugin-commonjs": "latest",
