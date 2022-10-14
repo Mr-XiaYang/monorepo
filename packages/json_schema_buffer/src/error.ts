@@ -1,8 +1,12 @@
 import { TSchema } from "@sinclair/typebox";
+import type { ValueError } from "@sinclair/typebox/compiler";
 
 type Code =
   | "NOT_FOUND"
   | "INVALID_SCHEMA"
+  | "INVALID_VALUE"
+  | "UNAVAILABLE"
+  | "INTERNAL"
 
   | "OK"
   | "CANCELLED"
@@ -16,12 +20,11 @@ type Code =
   | "ABORTED"
   | "OUT_OF_RANGE"
   | "UNIMPLEMENTED"
-  | "INTERNAL"
-  | "UNAVAILABLE"
+
   | "DATA_LOSS"
   | "UNAUTHENTICATED"
 
-export class SchemaError extends Error {
+class BaseError extends Error {
   code: Code;
 
   constructor(code: Code, message: string) {
@@ -30,14 +33,26 @@ export class SchemaError extends Error {
   }
 }
 
-export class NotFoundError extends SchemaError {
+export class InternalError extends BaseError {
+  constructor(message: string) {
+    super("INTERNAL", message);
+  }
+}
+
+export class NotFoundError extends BaseError {
   constructor(name: string) {
     super("NOT_FOUND", `The ${name} is not found.`);
   }
 }
 
-export class InvalidSchemaError extends SchemaError {
+export class InvalidSchemaError extends BaseError {
   constructor(schema: TSchema) {
-    super("INVALID_SCHEMA", `invalid schema:\n${JSON.stringify(schema, null, 2)}`);
+    super("INVALID_SCHEMA", `\n${JSON.stringify(schema, null, 2)}`);
+  }
+}
+
+export class InvalidValueError extends BaseError {
+  constructor(errors: ValueError[]) {
+    super("INVALID_VALUE", `\n${JSON.stringify(errors, null, 2)}`);
   }
 }

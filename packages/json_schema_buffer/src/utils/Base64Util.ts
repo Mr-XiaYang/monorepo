@@ -30,10 +30,3 @@ export function bufferToBase64(buffer: Uint8Array): string {
 
   return base64;
 }
-
-if (process.env.NODE_ENV === "development") {
-  console.log(Buffer.from(Uint8Array.of(255, 12, 24, 18)).toString("base64"));
-  // @ts-ignore
-  Buffer = undefined
-  console.log(bufferToBase64(Uint8Array.of(255, 12, 24, 18)));;
-}

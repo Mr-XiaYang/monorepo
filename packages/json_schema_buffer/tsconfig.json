@@ -16,6 +16,12 @@
       ],
       "@m_xy/array_extend/*": [
         "../node_modules/@m_xy/array_extend/src/*.ts"
+      ],
+      "@m_xy/buffer_extend": [
+        "../node_modules/@m_xy/buffer_extend/src/index.ts"
+      ],
+      "@m_xy/buffer_extend/*": [
+        "../node_modules/@m_xy/buffer_extend/src/*.ts"
       ]
     }
   },

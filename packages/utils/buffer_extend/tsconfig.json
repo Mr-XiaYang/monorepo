@@ -1,0 +1,24 @@
+{
+  "extends": "@m_xy/tsconfig_base/node_next.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+
+    "target": "ES3",
+    "declaration": true,
+    "resolveJsonModule": true,
+
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "outDir": "./lib"
+  },
+  "include": [
+    "src/**/*",
+    "package.json"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts"
+  ]
+}

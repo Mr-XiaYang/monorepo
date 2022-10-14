@@ -15,85 +15,72 @@ const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
 const isWatch = process.env.ROLLUP_WATCH === 'true';
 
-export default defineConfig(
-  {
-    input: "./src/index.ts",
+export default defineConfig({
+  input: "./src/index.ts",
 
-    output: [{
-      dir: "./lib", format: 'commonjs', exports: 'named',
-      entryFileNames: ({name}) => `${name}.cjs`,
-    }, {
-      dir: "./lib", format: 'module', exports: 'named',
-      entryFileNames: ({name}) => `${name}.mjs`,
-    }],
+  output: [{
+    dir: "./lib", format: 'commonjs', exports: 'named', entryFileNames: ({name}) => `${name}.cjs`,
+  }, {
+    dir: "./lib", format: 'module', exports: 'named', entryFileNames: ({name}) => `${name}.mjs`,
+  }],
 
-    watch: {
-      include: './src/**'
-    },
+  watch: {
+    include: './src/**'
+  },
 
-    onwarn: (warning) => {
-      if (warning.code !== 'CIRCULAR_DEPENDENCY') {
-        console.warn(`(!) ${warning.message}`) // eslint-disable-line no-console
-      } else {
-        console.info(`(!) ${warning.message}`) // eslint-disable-line no-console
+  onwarn: (warning) => {
+    if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+      console.warn(`(!) ${warning.message}`) // eslint-disable-line no-console
+    } else {
+      console.info(`(!) ${warning.message}`) // eslint-disable-line no-console
+    }
+  },
+
+  external: id => {
+    let dependencies = []
+      .concat(Object.keys(packageConfig.dependencies ?? {}))
+      .concat(Object.keys(packageConfig.peerDependencies ?? {}))
+
+    if (isDev) {
+      dependencies = dependencies.filter(dependency => ![
+        "@m_xy/array_extend", "@m_xy/buffer_extend"
+      ].includes(dependency))
+    }
+
+    return !!dependencies.find(dep => dep === id || id.startsWith(`${dep}/`))
+  },
+
+  plugins: [
+
+    isDev && alias({
+      entries: [{
+        find: /^@m_xy\/(array_extend|buffer_extend)$/,
+        replacement: path.join(path.dirname(fileURLToPath(import.meta.url)), "node_modules/@m_xy/$1/src/index.ts")
+      }, {
+        find: /^@m_xy\/(array_extend|buffer_extend)\/(.*)$/,
+        replacement: path.join(path.dirname(fileURLToPath(import.meta.url)), "node_modules/@m_xy/$1/src/$2.ts")
+      }]
+    }),
+
+    json(),
+
+    resolve({
+      extensions: ['.json', '.js', '.jsx', '.es6', '.es', '.mjs', '.ts', '.tsx']
+    }),
+
+    commonjs(),
+
+    replace({
+      preventAssignment: true, values: {
+        "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`,
       }
-    },
+    }),
 
-    external: id => {
-      let dependencies = []
-        .concat(Object.keys(packageConfig.dependencies ?? {}))
-        .concat(Object.keys(packageConfig.peerDependencies ?? {}))
+    swc({
+      sourceMaps: "inline", minify: isProd
+    }),
 
-      if (isDev) {
-        dependencies = dependencies.filter(
-          dependency => !["@m_xy/array_extend"].includes(dependency)
-        )
-      }
+    isWatch && run()
 
-      return !!dependencies.find(dep => dep === id || id.startsWith(`${dep}/`))
-    },
-
-    plugins: [
-
-      isDev && alias({
-        entries: [
-          {
-            find: /^@m_xy\/array_extend$/,
-            replacement: path.join(
-              path.dirname(fileURLToPath(import.meta.url)),
-              "node_modules/@m_xy/array_extend/src/index.ts"
-            )
-          },
-          {
-            find: /^@m_xy\/array_extend\/(.*)$/,
-            replacement: path.join(
-              path.dirname(fileURLToPath(import.meta.url)),
-              "node_modules/@m_xy/array_extend/src/$1.ts"
-            )
-          }
-        ]
-      }),
-
-      json(),
-
-      resolve({
-        extensions: ['.json', '.js', '.jsx', '.es6', '.es', '.mjs', '.ts', '.tsx']
-      }),
-
-      commonjs(),
-
-      replace({
-        preventAssignment: true, values: {
-          "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`,
-        }
-      }),
-
-      swc({
-        sourceMaps: "inline",
-        minify: isProd
-      }),
-
-      isWatch && run()
-
-    ].filter(Boolean)
-  })
+  ].filter(Boolean)
+})
