@@ -3,7 +3,7 @@ import { Observer } from "mobx-react";
 import { FunctionComponent, useEffect, useRef } from "react";
 import { Image, Layer } from "react-konva";
 import { useStore } from "../../hooks";
-import { colors } from "../../utils/colors";
+import { colors } from "../../config";
 
 export const DrawingBoard: FunctionComponent<{ worldId: string }> = ({worldId}) => {
   const {pixelMap} = useStore();

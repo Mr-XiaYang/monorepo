@@ -1,6 +1,7 @@
 {
   "extends": "@m_xy/tsconfig_base/node_next.json",
   "compilerOptions": {
+    "target": "ESNext",
     "jsx": "react-jsx",
     "lib": [
       "DOM",
