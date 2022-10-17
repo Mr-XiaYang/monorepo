@@ -18,7 +18,8 @@
     "lodash": "^4.17.21",
     "pino": "^8.6.0",
     "pino-pretty": "^9.1.0",
-    "yaml": "^2.1.1"
+    "yaml": "^2.1.1",
+    "@m_xy/array_extend": "workspace:*"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",

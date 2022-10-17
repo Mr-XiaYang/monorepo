@@ -1,9 +1,22 @@
 {
   "extends": "@m_xy/tsconfig_base/node_next.json",
   "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "baseUrl": "src",
+    "paths": {
+      "@m_xy/array_extend": [
+        "../node_modules/@m_xy/array_extend/src/index.ts"
+      ],
+      "@m_xy/array_extend/*": [
+        "../node_modules/@m_xy/array_extend/src/*.ts"
+      ]
+    }
   },
   "include": [
-    "src/**/*",
-    "package.json"
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

@@ -1,23 +1,23 @@
-/// <reference path="../types/remove_one.d.ts" />
-
-if (!Array.prototype.removeOne) {
-  Array.prototype.removeOne = function (this: any[], filter: (v: any, i: any, arr: any) => boolean | any): any[] {
-    if (typeof (filter) == "function") {
-      for (let i = this.length - 1; i > -1; --i) {
-        if (filter(this[i], i, this)) {
-          this.splice(i, 1);
-          return this;
-        }
-      }
-    } else {
-      for (let i = this.length - 1; i > -1; --i) {
-        if (this[i] === filter) {
-          this.splice(i, 1);
-          return this;
-        }
+function removeOne<T>(arr: T[], item: T): T[]
+function removeOne<T>(arr: T[], filter: (v: T, i: number, arr: T[]) => boolean): T[]
+function removeOne<T>(arr: T[], filter: (v: T, i: number, arr: T[]) => boolean | T): T[] {
+  if (typeof filter === "function") {
+    for (let i = arr.length - 1; i > -1; --i) {
+      if (filter(arr[i], i, arr)) {
+        arr.splice(i, 1);
+        return arr;
       }
     }
+  } else {
+    for (let i = arr.length - 1; i > -1; --i) {
+      if (arr[i] === filter) {
+        arr.splice(i, 1);
+        return arr;
+      }
+    }
+  }
 
-    return this;
-  };
+  return arr;
 }
+
+export default removeOne;
