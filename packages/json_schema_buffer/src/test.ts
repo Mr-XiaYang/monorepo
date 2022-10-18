@@ -1,4 +1,3 @@
-import { Buffer } from "buffer";
 import { VarInt } from "./utils/var_int";
 // import { VarInt } from "./utils/var_int";
 
@@ -27,10 +26,27 @@ import { VarInt } from "./utils/var_int";
 
 // console.log(VarInt.from(0x1_ffff_ffffn).buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
 // console.log(VarInt.from(0x1_ffff_ffff).buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
-VarInt.fromInt32(1)
-VarInt.fromInt32(-1)
+
+// console.log(VarInt.from(0).zzEncode().toNumber());
+// console.log(VarInt.from(-1).zzEncode().toNumber());
+// console.log(VarInt.from(1).zzEncode().toNumber());
+// console.log(VarInt.from(-2).zzEncode().toNumber());
+// console.log(VarInt.from(2).zzEncode().toNumber());
+console.log(VarInt.from(150).toBuffer().reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
+VarInt.fromBuffer(VarInt.from(150).toBuffer());
+// console.log(varint.byteLength);
+// console.log(varint.buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
+// ;
+// console.log(VarInt.from(-12345).buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
+// console.log(VarInt.from(-12345).zzEncode().buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
+// console.log(VarInt.from(0x1_ffff_ffff).toNumber() === 0x1_ffff_ffff);
+// console.log(VarInt.from(-0x1_ffff_ffff).toNumber() === -0x1_ffff_ffff);
+// console.log(VarInt.from(0x1_ffff_ffff).toBigNumber() === 0x1_ffff_ffffn);
+// console.log(VarInt.from(0x1_ffff_ffff).toBigNumber() === 0x1_ffff_ffffn);
+// console.log(VarInt.from(-0x1_ffff_ffff).toBigNumber() === -0x1_ffff_ffffn);
+// console.log(VarInt.from(0xffff_ffff_ffff_ffffn).toBigNumber(true) === 0xffff_ffff_ffff_ffffn);
 // console.log(VarInt.from(0xffff_ffffn).readInt32());
-// console.log(VarInt.from(-0xffff_ffffn).readInt32());
+// console.log(VarInt.from(-0xffff_ffffn).zzEncode().zzDecode().toBigNumber(), -0xffff_ffffn);
 // console.log(VarInt.from(-1).readInt32());
 // console.log(VarInt.from(-0x1_ffff_ffff).buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
 // console.log(VarInt.from(-0x1_ffff_ffffn).buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
