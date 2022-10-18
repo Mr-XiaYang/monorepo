@@ -92,7 +92,9 @@ export class VarInt {
       }
     }, buffer[buffer.length - 6]);
 
-    return new VarInt(high, low);
+    console.log(high, low);
+
+    // return new VarInt(high, low);
   }
 
   zzEncode(): VarInt {
