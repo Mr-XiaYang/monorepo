@@ -35,6 +35,7 @@ export class VarInt {
   }
 
   constructor(highUInt32: number = 0, lowUInt32: number = 0) {
+    console.log(highUInt32, lowUInt32);
     this.highUInt32 = highUInt32;
     this.lowUint32 = lowUInt32;
   }
@@ -83,11 +84,15 @@ export class VarInt {
         return (previousValue << 7) + (currentValue ^ 128);
       }
     }, buffer[buffer.length - 1]);
-    const high = buffer.slice(0, buffer.length - 5).reduceRight((previousValue: number | undefined, currentValue, currentIndex) => {
+    const high = buffer.slice(0, buffer.length - 6).reduceRight((previousValue: number, currentValue, currentIndex) => {
       if (currentValue < 128) {
         throw Error("invalid varInt encoding");
+      } else {
+        return (previousValue << 7) + (currentValue ^ 128);
       }
-    });
+    }, buffer[buffer.length - 6]);
+
+    return new VarInt(high, low);
   }
 
   zzEncode(): VarInt {
