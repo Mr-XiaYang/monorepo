@@ -11,7 +11,8 @@
   "dependencies": {
     "@m_xy/array_extend": "workspace:*",
     "@m_xy/buffer_extend": "workspace:*",
-    "@sinclair/typebox": "^0.24.43"
+    "@sinclair/typebox": "^0.24.43",
+    "lodash": "latest"
   },
   "devDependencies": {
     "@m_xy/tsconfig_base": "workspace:*",
@@ -22,6 +23,7 @@
     "@rollup/plugin-replace": "latest",
     "@rollup/plugin-run": "latest",
     "@swc/core": "latest",
+    "@types/lodash": "^4.14.186",
     "@types/node": "latest",
     "rimraf": "latest",
     "rollup": "latest",

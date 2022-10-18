@@ -1,5 +1,5 @@
 import { TypeCheck, TypeCompiler } from "@sinclair/typebox/compiler/index.js";
-import { InvalidValueError, NotFoundError } from "./error";
+import { InvalidSchemaValueError, NotFoundError } from "./error";
 import Schema from "./schema/schema";
 import SchemaEncoder from "./schema/schema_encoder";
 import { SchemaDefinition, SchemaModel } from "./type";
@@ -64,7 +64,7 @@ class JsonBuffer<T extends Record<string, Schema<any>>> {
     if (!(options?.skipValidate ?? this.options?.skipEncodeValidate)) {
       const errors = [...this.getValidator(schema.versions[version].definition).Errors(value)];
       if (errors.length) {
-        throw new InvalidValueError(errors);
+        throw new InvalidSchemaValueError(errors);
       }
     }
 

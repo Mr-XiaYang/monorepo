@@ -1,6 +1,7 @@
 import { TAnySchema } from "@sinclair/typebox";
 import { TypeGuard } from "@sinclair/typebox/guard/index.js";
 import { BufferWriter } from "../utils/buffer_writer";
+import isObject from "lodash/isObject"
 
 
 class SchemaEncoder {
@@ -18,9 +19,18 @@ class SchemaEncoder {
 
     } else if (TypeGuard.TString(schema)) {
       bufferWriter.writeString(value);
-    } else if (TypeGuard.TNumber(schema)) {
-      bufferWriter.writeNumber(value);
-    } else if (TypeGuard.TInteger(schema)) {
+    } else if (schema.type === 'number') {
+      switch (schema.variant) {
+        case "float":
+        case "double":
+      }
+    } else if (schema.type === 'integer') {
+      switch (schema.variant) {
+        case 'int32':
+        case 'int64':
+        case 'uInt32':
+        case 'uInt64':
+      }
       bufferWriter.writeInteger(value);
     } else if (TypeGuard.TBoolean(schema)) {
       this.uint8Arrays.push(new Uint8Array([value ? 255 : 0]));

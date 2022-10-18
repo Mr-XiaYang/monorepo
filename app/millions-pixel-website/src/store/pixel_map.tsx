@@ -10,8 +10,9 @@ async function loadData(worldId: string) {
   return new Uint8Array(buffer);
 }
 
-export class PixelMapStore extends BaseStore {
+const webSocket = new WebSocket("ws://localhost:8080");
 
+export class PixelMapStore extends BaseStore {
 
   scale: number;
   minScale: number = 1;

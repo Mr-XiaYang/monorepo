@@ -14,7 +14,7 @@ const DrawingBoardLayer: FunctionComponent<DrawingBoardLayerProps> = (props) => 
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    pixelMap.loadPixelMap(worldId);
+    pixelMap.loadPixelMap(worldId).finally();
   }, [pixelMap, worldId]);
 
   return useMemo(() => (

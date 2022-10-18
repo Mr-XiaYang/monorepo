@@ -4,7 +4,8 @@ import type { ValueError } from "@sinclair/typebox/compiler";
 type Code =
   | "NOT_FOUND"
   | "INVALID_SCHEMA"
-  | "INVALID_VALUE"
+  | "INVALID_SCHEMA_VALUE"
+  | "INVALID_ARGUMENT"
   | "UNAVAILABLE"
   | "INTERNAL"
 
@@ -51,8 +52,14 @@ export class InvalidSchemaError extends BaseError {
   }
 }
 
-export class InvalidValueError extends BaseError {
+export class InvalidSchemaValueError extends BaseError {
   constructor(errors: ValueError[]) {
-    super("INVALID_VALUE", `\n${JSON.stringify(errors, null, 2)}`);
+    super("INVALID_SCHEMA_VALUE", `\n${JSON.stringify(errors, null, 2)}`);
+  }
+}
+
+export class InvalidArgumentError extends BaseError {
+  constructor() {
+    super("INVALID_ARGUMENT", "invalid argument");
   }
 }
