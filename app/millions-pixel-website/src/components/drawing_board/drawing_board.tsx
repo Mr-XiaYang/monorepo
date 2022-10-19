@@ -1,11 +1,10 @@
 import Konva from "konva";
 import { Vector2d } from "konva/lib/types";
 import { autorun } from "mobx";
-import React, { FunctionComponent, FunctionComponentElement, useCallback, useEffect, useMemo, useRef } from "react";
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from "react";
 import { Stage } from "react-konva";
 import { RootStoreContext } from "../../context";
 import { useStore } from "../../hooks";
-import DrawingBoardLayer, { DrawingBoardLayerProps } from "./drawing_board_layer";
 
 export type DrawingBoardProps = {
   children: React.ReactNode
@@ -160,7 +159,7 @@ const DrawingBoard: FunctionComponent<DrawingBoardProps> = (props) => {
         {children}
       </RootStoreContext.Provider>
     </Stage>
-  ), [rootStore]);
+  ), [rootStore, children]);
 };
 
 export default DrawingBoard;

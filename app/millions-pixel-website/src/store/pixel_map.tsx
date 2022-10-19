@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, runInAction, when } from "mobx";
 import { colors } from "../config";
 import { BaseStore } from "./base";
 import type { RootStore } from "./root";
@@ -10,7 +10,7 @@ async function loadData(worldId: string) {
   return new Uint8Array(buffer);
 }
 
-const webSocket = new WebSocket("ws://localhost:8080");
+const webSocket = new WebSocket("ws://localhost:8080/board/bitmap/${worldId}");
 
 export class PixelMapStore extends BaseStore {
 
@@ -30,7 +30,7 @@ export class PixelMapStore extends BaseStore {
   bitmap: {
     [worldId: string]: Uint32Array
   };
-  pixels: Record<string, { worldId: string, x: number, y: number, color: number }[]>;
+  pixels: Array<{ worldId: string, x: number, y: number, color: number }>;
 
   constructor(root: RootStore) {
     super(root);
@@ -40,7 +40,7 @@ export class PixelMapStore extends BaseStore {
     this.viewport = {width: 0, height: 0};
     this.focusPosition = null;
     this.bitmap = {};
-    this.pixels = {};
+    this.pixels = [];
     makeObservable(this, {
       scale: observable,
       minScale: false,
@@ -54,20 +54,26 @@ export class PixelMapStore extends BaseStore {
       updateViewPort: action.bound,
       updateFocusPosition: action.bound,
       loadPixelMap: action.bound,
-      updatePixelMap: action.bound,
+      // updatePixelMap: action.bound,
+    });
+
+    when(() => this.pixels.length > 0, () => {
+      while (this.pixels.length > 0) {
+        const pixel = this.pixels.shift();
+        console.log(pixel?.x, pixel?.y);
+      }
     });
 
     const a = setInterval(() => {
-      if (!this.pixels["1"]) this.pixels["1"] = [];
       const x = Math.ceil(Math.random() * (this.width / 2));
       const y = Math.ceil(Math.random() * (this.height / 2));
-      this.pixels["1"].push({
+      this.pixels.push({
         worldId: "1",
         x: Math.random() < 0.5 ? x : -x,
         y: Math.random() < 0.5 ? y : -y,
         color: Math.floor(Math.random() * 256),
       });
-    }, 1);
+    }, 100);
   }
 
   get isDrawable(): boolean {
@@ -99,23 +105,26 @@ export class PixelMapStore extends BaseStore {
     runInAction(() => this.bitmap[worldId] = bitmap);
   }
 
-  async updatePixelMap(worldId: string) {
-    if (this.bitmap[worldId] && this.pixels[worldId].length > 0) {
-      const startTime = Date.now();
-      while (Date.now() - startTime < 2000) {
-        const pixel = this.pixels[worldId].shift();
-        if (pixel != null) {
-          const color: string = colors[pixel.color];
-          const offset: number = -((pixel.y < 0 ? pixel.y + 1 : pixel.y) - 540) * 1920 + (960 + (pixel.x > 0 ? pixel.x - 1 : pixel.x));
-          const value: number = parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
-          this.bitmap[worldId].set([value], offset);
-        } else {
-          break;
-        }
-      }
-      return await createImageBitmap(new ImageData(
-        new Uint8ClampedArray(this.bitmap[worldId].buffer), this.width, this.height,
-      ));
+  async drawPixel(pixel: { worldId: string, x: number, y: number, color: number }) {
+    if (this.bitmap[pixel.worldId] == null) {
+      this.pixels.push(pixel);
+    } else {
+      const color: string = colors[pixel.color];
+      const offset: number = -((pixel.y < 0 ? pixel.y + 1 : pixel.y) - 540) * 1920 + (960 + (pixel.x > 0 ? pixel.x - 1 : pixel.x));
+      const value: number = parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
+      this.bitmap[pixel.worldId].set([value], offset);
     }
+
+    // if (this.bitmap[worldId] && this.pixels[worldId].length > 0) {
+    //   const startTime = Date.now();
+    //   while (Date.now() - startTime < 2000) {
+    //     const pixel = this.pixels[worldId].shift();
+    //     if (pixel != null) {
+    //
+    //     } else {
+    //       break;
+    //     }
+    //   }
+    // }
   }
 }

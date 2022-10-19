@@ -14,6 +14,7 @@ export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   await subscriber.connect();
   await subscriber.pSubscribe<false>(`channel:place_bitmap_*`, (message, channel) => {
     const bitmapId = channel.slice(8);
+    fastify.redis.clients
     connects.get(bitmapId)?.forEach((connect) => {
       connect.socket.send(message);
     });

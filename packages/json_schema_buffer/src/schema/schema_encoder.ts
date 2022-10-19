@@ -71,7 +71,7 @@ class SchemaEncoder {
   }
 
   build(): Uint8Array {
-    return Buffer.concat(this.uint8Arrays);
+    return Buffer.concat(this.bufferBlock);
   }
 }
 
