@@ -19,9 +19,7 @@ export class BufferWriter {
 
   private readonly operations: BufferWriterOperation[] = [];
 
-
   writeString(value: string): BufferWriter {
-
     this.operations.push({
       type: OperationType.String,
       value: value,

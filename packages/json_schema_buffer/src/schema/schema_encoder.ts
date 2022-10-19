@@ -1,14 +1,15 @@
 import { TAnySchema } from "@sinclair/typebox";
 import { TypeGuard } from "@sinclair/typebox/guard/index.js";
+import { Buffer } from "buffer";
 import { BufferWriter } from "../utils/buffer_writer";
-import isObject from "lodash/isObject"
+import { VarInt } from "../utils/var_int";
 
 
 class SchemaEncoder {
-  uint8Arrays: Uint8Array[];
+  bufferBlock: Buffer[];
 
   constructor() {
-    this.uint8Arrays = [];
+    this.bufferBlock = [];
   }
 
   write(schema: TAnySchema, value: any): SchemaEncoder {
@@ -19,22 +20,26 @@ class SchemaEncoder {
 
     } else if (TypeGuard.TString(schema)) {
       bufferWriter.writeString(value);
-    } else if (schema.type === 'number') {
+    } else if (schema.type === "number") {
       switch (schema.variant) {
         case "float":
         case "double":
       }
-    } else if (schema.type === 'integer') {
+    } else if (schema.type === "integer") {
       switch (schema.variant) {
-        case 'int32':
-        case 'int64':
-        case 'uInt32':
-        case 'uInt64':
+        case "int32":
+        case "int64":
+          const int = VarInt.fromBuffer(value).zzEncode();
+          this.bufferBlock.push(VarInt.from(int.byteLength).toBuffer(), int.toBuffer());
+          break;
+        case "uInt32":
+        case "uInt64":
+          const uInt = VarInt.fromBuffer(value);
+          this.bufferBlock.push(VarInt.from(uInt.byteLength).toBuffer(), uInt.toBuffer());
+          break;
       }
-      bufferWriter.writeInteger(value);
-    } else if (TypeGuard.TBoolean(schema)) {
-      this.uint8Arrays.push(new Uint8Array([value ? 255 : 0]));
-      return this;
+    } else if (schema.type === "boolean") {
+      this.bufferBlock.push(VarInt.from(Number(value)).toBuffer());
     } else if (TypeGuard.TUint8Array(schema)) {
 
     } else if (TypeGuard.TRef(schema)) {
