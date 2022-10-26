@@ -6,7 +6,7 @@ packages:
   - app/zero-base-service
   - packages/packer
   - packages/server
-  - packages/model
+  - packages/orm
   - packages/json_schema_buffer
   - packages/adapter/*
   - packages/utils/*

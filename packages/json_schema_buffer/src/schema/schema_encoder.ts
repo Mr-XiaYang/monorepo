@@ -5,16 +5,47 @@ import { BufferWriter } from "../utils/buffer_writer";
 import { VarInt } from "../utils/var_int";
 
 
-class SchemaEncoder {
-  bufferBlock: Buffer[];
+type SchemaEncoderOptions = {
+  nullAsUndefined?: boolean;
+}
 
-  constructor() {
-    this.bufferBlock = [];
+class SchemaEncoder {
+  private readonly options: Required<SchemaEncoderOptions> = {
+    nullAsUndefined: false,
+  };
+
+  private readonly bufferBlock: Buffer[] = [];
+
+  constructor(options?: SchemaEncoderOptions) {
+    this.options = {...this.options, ...options};
   }
 
-  write(schema: TAnySchema, value: any): SchemaEncoder {
+  mateData(name: string, version: number) {
+    this.bufferBlock.push(
+      VarInt.from(Buffer.byteLength(name, "utf-8")).toBuffer(),
+      Buffer.from(name, "utf-8"),
+    );
+    this.bufferBlock.push(
+      VarInt.from(version).toBuffer(),
+    );
+  }
+
+  writeNull(schema: object, value?: null): this {
+    if (!this.options.nullAsUndefined) {
+      this.bufferBlock.push(Buffer.alloc(1));
+    }
+    return this;
+  }
+
+  writeUndefined(schema: object, value?: undefined): this {
+    return this;
+  }
+
+  write(schema: TAnySchema, value: any): this {
     const bufferWriter = new BufferWriter();
-    if (TypeGuard.TNull(schema) || TypeGuard.TUndefined(schema)) {
+    if (schema.type === "null") {
+
+    } else if (TypeGuard.TUndefined(schema)) {
 
     } else if (TypeGuard.TLiteral(schema)) {
 
@@ -69,6 +100,7 @@ class SchemaEncoder {
 
     return this;
   }
+
 
   build(): Uint8Array {
     return Buffer.concat(this.bufferBlock);

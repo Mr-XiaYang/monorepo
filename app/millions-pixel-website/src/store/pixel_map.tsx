@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, runInAction, when } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { colors } from "../config";
 import { BaseStore } from "./base";
 import type { RootStore } from "./root";
@@ -10,10 +10,20 @@ async function loadData(worldId: string) {
   return new Uint8Array(buffer);
 }
 
-const webSocket = new WebSocket("ws://localhost:8080/board/bitmap/${worldId}");
+function pixelMapListener(worldId: string) {
+
+}
+
+const api = {
+  loadBitMap() {
+  },
+  bitmapListener() {},
+  drawPixel() {
+  },
+};
+
 
 export class PixelMapStore extends BaseStore {
-
   scale: number;
   minScale: number = 1;
   maxScale: number = 40;
@@ -30,7 +40,7 @@ export class PixelMapStore extends BaseStore {
   bitmap: {
     [worldId: string]: Uint32Array
   };
-  pixels: Array<{ worldId: string, x: number, y: number, color: number }>;
+  pixels: Record<string, { worldId: string, x: number, y: number, color: number }[]>;
 
   constructor(root: RootStore) {
     super(root);
@@ -40,7 +50,7 @@ export class PixelMapStore extends BaseStore {
     this.viewport = {width: 0, height: 0};
     this.focusPosition = null;
     this.bitmap = {};
-    this.pixels = [];
+    this.pixels = {};
     makeObservable(this, {
       scale: observable,
       minScale: false,
@@ -53,27 +63,9 @@ export class PixelMapStore extends BaseStore {
       updateScale: action.bound,
       updateViewPort: action.bound,
       updateFocusPosition: action.bound,
-      loadPixelMap: action.bound,
+      // setPixelMap: action.bound,
       // updatePixelMap: action.bound,
     });
-
-    when(() => this.pixels.length > 0, () => {
-      while (this.pixels.length > 0) {
-        const pixel = this.pixels.shift();
-        console.log(pixel?.x, pixel?.y);
-      }
-    });
-
-    const a = setInterval(() => {
-      const x = Math.ceil(Math.random() * (this.width / 2));
-      const y = Math.ceil(Math.random() * (this.height / 2));
-      this.pixels.push({
-        worldId: "1",
-        x: Math.random() < 0.5 ? x : -x,
-        y: Math.random() < 0.5 ? y : -y,
-        color: Math.floor(Math.random() * 256),
-      });
-    }, 100);
   }
 
   get isDrawable(): boolean {
@@ -96,35 +88,42 @@ export class PixelMapStore extends BaseStore {
     }
   }
 
-  async loadPixelMap(worldId: string) {
-    const bitmapData = await loadData(worldId);
-    const bitmap = new Uint32Array(bitmapData.length).map((_, index) => {
-      const color: string = colors[bitmapData[index]];
+  loadPixelMap(worldId: string, data: Uint8Array) {
+    this.bitmap[worldId] = new Uint32Array(data.length).map((_, index) => {
+      const color: string = colors[data[index]];
       return parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
     });
-    runInAction(() => this.bitmap[worldId] = bitmap);
-  }
-
-  async drawPixel(pixel: { worldId: string, x: number, y: number, color: number }) {
-    if (this.bitmap[pixel.worldId] == null) {
-      this.pixels.push(pixel);
-    } else {
+    let pixel = this.pixels[worldId].shift();
+    while (!!pixel) {
       const color: string = colors[pixel.color];
       const offset: number = -((pixel.y < 0 ? pixel.y + 1 : pixel.y) - 540) * 1920 + (960 + (pixel.x > 0 ? pixel.x - 1 : pixel.x));
       const value: number = parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
       this.bitmap[pixel.worldId].set([value], offset);
+      pixel = this.pixels[worldId].shift();
     }
+    const pixels = this.pixels[worldId];
+    delete this.pixels[worldId];
 
-    // if (this.bitmap[worldId] && this.pixels[worldId].length > 0) {
-    //   const startTime = Date.now();
-    //   while (Date.now() - startTime < 2000) {
-    //     const pixel = this.pixels[worldId].shift();
-    //     if (pixel != null) {
-    //
-    //     } else {
-    //       break;
-    //     }
-    //   }
-    // }
+  }
+
+  updatePixel() {
+    if (this) {
+    }
+  }
+
+
+  async drawPixel(pixel: { worldId: string, x: number, y: number, color: number }) {
+
+    const color: string = colors[pixel.color];
+    const offset: number = -((pixel.y < 0 ? pixel.y + 1 : pixel.y) - 540) * 1920 + (960 + (pixel.x > 0 ? pixel.x - 1 : pixel.x));
+    const prevValue = this.bitmap[pixel.worldId][offset];
+    const value: number = parseInt(`ff${color.slice(5, 7)}${color.slice(3, 5)}${color.slice(1, 3)}`, 16);
+    this.bitmap[pixel.worldId].set([value], offset);
+
+    try {
+      // 更新服务端
+    } catch (error) {
+      this.bitmap[pixel.worldId].set([prevValue], offset);
+    }
   }
 }

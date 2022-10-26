@@ -14,7 +14,6 @@ export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
   await subscriber.connect();
   await subscriber.pSubscribe<false>(`channel:place_bitmap_*`, (message, channel) => {
     const bitmapId = channel.slice(8);
-    fastify.redis.clients
     connects.get(bitmapId)?.forEach((connect) => {
       connect.socket.send(message);
     });
@@ -29,6 +28,14 @@ export default fastifyPlugin<{ prefix: string }>(async (fastify, opts) => {
       color: Math.floor(Math.random() * 256),
     }));
   }, 50);
+
+
+  fastify.get(`${opts.prefix}/bitmap`, {
+    websocket: true,
+  }, (connect) => {
+
+  });
+
 
   fastify.route<{ Params: Static<typeof paramsSchema> }>({
     url: `${opts.prefix}/bitmap/:worldId`, method: "GET", schema: {params: paramsSchema},

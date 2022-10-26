@@ -1,5 +1,6 @@
 import Konva from "konva";
-import { Observer } from "mobx-react";
+import { observable } from "mobx";
+import { Observer, useLocalObservable } from "mobx-react";
 import { FunctionComponent, useCallback, useEffect, useMemo, useRef } from "react";
 import { Image, Layer } from "react-konva";
 import { colors } from "../../config";
@@ -15,9 +16,13 @@ const DrawingBoardLayer: FunctionComponent<DrawingBoardLayerProps> = (props) => 
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    pixelMap.loadPixelMap(worldId).catch((error) => {
-      console.log(error);
+    const webSocket = new WebSocket(`ws://localhost:8080/board/bitmap/${worldId}`);
+    webSocket.addEventListener("message", (message) => {
+      console.log(message.data);
     });
+    // pixelMap.loadPixelMap(worldId).catch((error) => {
+    //   console.log(error);
+    // });
   }, [pixelMap, worldId]);
 
   const callback = useCallback(async function* () {

@@ -38,6 +38,13 @@
           </resourceRoots>
         </entryData>
       </entry>
+      <entry url="file://$PROJECT_DIR$/packages/orm">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/packages/orm/src" />
+          </resourceRoots>
+        </entryData>
+      </entry>
       <entry url="file://$PROJECT_DIR$/packages/packer">
         <entryData>
           <resourceRoots>
