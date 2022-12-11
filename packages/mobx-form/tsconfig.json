@@ -1,0 +1,19 @@
+{
+  "extends": "@m_xy/tsconfig_base/node_next.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "src",
+    "paths": {
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

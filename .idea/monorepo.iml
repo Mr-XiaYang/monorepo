@@ -9,7 +9,8 @@
     <content url="file://$MODULE_DIR$/packages/json_schema_buffer">
       <excludeFolder url="file://$MODULE_DIR$/packages/json_schema_buffer/lib" />
     </content>
-    <content url="file://$MODULE_DIR$/packages/orm" />
+    <content url="file://$MODULE_DIR$/packages/mobx-form" />
+    <content url="file://$MODULE_DIR$/packages/model" />
     <content url="file://$MODULE_DIR$/packages/packer">
       <sourceFolder url="file://$MODULE_DIR$/packages/packer/lib" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/packages/packer/lib" />

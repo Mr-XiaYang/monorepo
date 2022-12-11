@@ -1,0 +1,32 @@
+{
+  "name": "@m_xy/mobx-form",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@7.13.3",
+  "scripts": {
+    "dev": "rollup -c -w --environment NODE_ENV:development -i src/test.ts",
+    "build": "rollup -c --environment NODE_ENV:production"
+  },
+  "peerDependencies": {
+    "mobx": "^6.7.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mobx": "^6.7.0",
+    "@m_xy/tsconfig_base": "workspace:*",
+    "@rollup/plugin-alias": "latest",
+    "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-json": "latest",
+    "@rollup/plugin-node-resolve": "latest",
+    "@rollup/plugin-replace": "latest",
+    "@rollup/plugin-run": "latest",
+    "@swc/core": "latest",
+    "@types/lodash": "^4.14.186",
+    "@types/node": "latest",
+    "rimraf": "latest",
+    "rollup": "latest",
+    "rollup-plugin-swc3": "latest",
+    "typescript": "latest"
+  }
+}

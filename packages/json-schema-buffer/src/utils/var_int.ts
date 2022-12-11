@@ -35,12 +35,22 @@ export class VarInt {
   }
 
   constructor(highUInt32: number = 0, lowUInt32: number = 0) {
+    console.log(highUInt32, lowUInt32);
     this.highUInt32 = highUInt32;
     this.lowUint32 = lowUInt32;
   }
 
-  static from(value?: number | bigint): VarInt {
-    if (typeof value === "number") {
+  static from(value: number | bigint): VarInt {
+
+    if (typeof value === "bigint") {
+      const buffer = Buffer.alloc(8);
+      if (value >= 0) {
+        buffer.writeBigUInt64BE(value);
+      } else {
+        buffer.writeBigInt64BE(~(-value) + 1n);
+      }
+      return new VarInt(buffer.readUInt32BE(0), buffer.readUInt32BE(4));
+    } else {
       let high: number, low: number;
       if (value >= 0) {
         high = value / 0x1_0000_0000 >>> 0;
@@ -57,16 +67,6 @@ export class VarInt {
       }
       return new VarInt(high, low);
     }
-    if (typeof value === "bigint") {
-      const buffer = Buffer.alloc(8);
-      if (value >= 0) {
-        buffer.writeBigUInt64BE(value);
-      } else {
-        buffer.writeBigInt64BE(~(-value) + 1n);
-      }
-      return new VarInt(buffer.readUInt32BE(0), buffer.readUInt32BE(4));
-    }
-    return new VarInt();
   }
 
 
@@ -74,25 +74,27 @@ export class VarInt {
     if (!buffer.length) {
       return new VarInt();
     }
-    if (buffer.byteLength > 10 || buffer[buffer.length - 1] > 128) {
+    if (buffer[buffer.length - 1] > 128) {
       throw Error("invalid varInt encoding");
     }
-    const {high, low} = buffer.reduce(({high, low}, currentValue, currentIndex) => {
-      let value = currentValue & 127;
-      if (currentIndex < 5) {
-        let offset = currentIndex * 7;
-        low = (value << offset | low) >>> 0;
-        if (currentIndex === 4) {
-          high = (value >> 4 | high) >>> 0;
-        }
+    const low = buffer.slice(-5, -1).reduceRight((previousValue, currentValue, currentIndex) => {
+      if (currentValue < 128) {
+        throw Error("invalid varInt encoding");
       } else {
-        let offset = (currentIndex - 5) * 7 + 3;
-        high = (value << offset | high) >>> 0;
+        return (previousValue << 7) + (currentValue ^ 128);
       }
-      return {high, low};
-    }, {high: 0, low: 0});
+    }, buffer[buffer.length - 1]);
+    const high = buffer.slice(0, buffer.length - 6).reduceRight((previousValue: number, currentValue, currentIndex) => {
+      if (currentValue < 128) {
+        throw Error("invalid varInt encoding");
+      } else {
+        return (previousValue << 7) + (currentValue ^ 128);
+      }
+    }, buffer[buffer.length - 6]);
 
-    return new VarInt(high, low);
+    console.log(high, low);
+
+    // return new VarInt(high, low);
   }
 
   zzEncode(): VarInt {

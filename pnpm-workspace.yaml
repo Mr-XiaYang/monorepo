@@ -6,7 +6,8 @@ packages:
   - app/zero-base-service
   - packages/packer
   - packages/server
-  - packages/orm
-  - packages/json_schema_buffer
+  - packages/model
+  - packages/mobx-form
+  - packages/json-schema-buffer
   - packages/adapter/*
   - packages/utils/*

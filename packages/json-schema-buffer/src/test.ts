@@ -35,15 +35,9 @@ import { VarInt } from "./utils/var_int";
 // console.log(VarInt.from(150).toBuffer().reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
 // VarInt.fromBuffer(VarInt.from(150).toBuffer()).toNumber();
 // VarInt.fromBuffer(VarInt.from(-150).toBuffer()).toNumber();
-// let buffer = VarInt.from(150)
-// console.log(buffer.buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
-// console.log(buffer.toBuffer().reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
-// VarInt.fromBuffer(buffer.toBuffer())
-// "11111111 11111111 11111111 11111111 11111111 11111111 11111111 01101010"
-// "111 11111111 11111111 11111111 01101010"
-// "    "
-// "1111111 1111111 1111111 1111111 0000001"
-
+let buffer = VarInt.from(-150).toBuffer()
+console.log(buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
+VarInt.fromBuffer(buffer)
 // console.log(varint.byteLength);
 // console.log(varint.buffer.reduce((pre, current) => pre + " " + current.toString(2).padStart(8, "0"), ""));
 // ;
