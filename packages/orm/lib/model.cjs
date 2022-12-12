@@ -76,9 +76,6 @@ function defineModel(name, definition) {
                 propertyDescriptors[key] = {
                     enumerable: true,
                     configurable: false,
-                    get: function() {
-                        return fieldOptions.getter?.apply(this) ?? this[modifiedDataSymbol][fieldKey] ?? this[dataSymbol][fieldKey] ?? (typeof fieldOptions.defaultValue === "function" ? fieldOptions.defaultValue() : fieldOptions.defaultValue) ?? null;
-                    },
                     set: isReadonly ? undefined : function(value) {
                         if (this[key] !== value) {
                             if (this[isSavedSymbol]) {
@@ -87,6 +84,9 @@ function defineModel(name, definition) {
                                 this[dataSymbol][fieldKey] = value;
                             }
                         }
+                    },
+                    get: function() {
+                        return fieldOptions.getter?.apply(this) ?? this[modifiedDataSymbol][fieldKey] ?? this[dataSymbol][fieldKey] ?? (typeof fieldOptions.defaultValue === "function" ? fieldOptions.defaultValue() : fieldOptions.defaultValue) ?? null;
                     }
                 };
             }
@@ -96,11 +96,6 @@ function defineModel(name, definition) {
     Model.definition = definition;
     Object.defineProperty(Model, "name", {
         value: name
-    });
-    Object.defineProperty(Model.prototype, "inspect", {
-        value: function() {
-            return "test";
-        }
     });
     return Model;
 }
@@ -126,7 +121,7 @@ const User = defineModel("User", {
         isMale: {
             type: "string",
             getter () {
-                return this.gender === "enum";
+                return this.gender === "MALE";
             }
         },
         status: {
@@ -154,7 +149,8 @@ user.id = "10";
 user.id = "10";
 console__namespace.log(user.id);
 user.reset();
+user.gender = "MALE";
 console__namespace.log(user.id);
-console__namespace.log(user.toObject());
+console__namespace.log(user.isMale);
 
 exports.defineModel = defineModel;

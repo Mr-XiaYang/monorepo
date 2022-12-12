@@ -1,7 +1,10 @@
 import isPlainObject from "lodash/isPlainObject";
+import { makeObservable, observable } from "mobx";
+import { Form } from "../form";
 
 export interface BaseFieldOptions<T, V> {
   type: string;
+  defaultValue: string;
 }
 
 export function isFieldOptions(options: any): options is BaseFieldOptions<any, any> {
@@ -9,8 +12,20 @@ export function isFieldOptions(options: any): options is BaseFieldOptions<any, a
 }
 
 
-export class BaseField<T, V> {
-  constructor(options: BaseFieldOptions<T, V>) {
+export abstract class BaseField<T extends Record<string, any>, V> {
+  protected readonly form: Form<T>;
+  inputValue: any;
+
+  abstract initValue: V;
+
+  get value(): V {
+    return this.initValue;
+  }
+
+  protected constructor(form: Form<T>, options: BaseFieldOptions<T, V>) {
     const {type} = options;
+    this.form = form;
+
+    makeObservable<this, "form">(this, {form: observable.ref});
   }
 }
