@@ -10,6 +10,7 @@ export function isNumberFieldOptions(options: any): options is NumberFieldOption
 }
 
 export class NumberField<T extends Record<string, any>, V extends number> extends BaseField<T, V> {
+
   constructor(form: Form<T>, options: NumberFieldOptions<T, V>) {
     super(form, options);
   }

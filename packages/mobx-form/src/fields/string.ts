@@ -9,9 +9,7 @@ export function isStringFieldOptions(options: any): options is StringFieldOption
   return isFieldOptions(options) && options.type === "string";
 }
 
-export class StringField<T extends Record<string, any>, V extends string> extends BaseField<T, V> {
-
-  initValue:string = "" as V;
+export class StringField<T extends Record<string, any>, V extends string> extends BaseField<T, string> {
 
   constructor(form: Form<T>, options: StringFieldOptions<T, V>) {
     super(form, options);

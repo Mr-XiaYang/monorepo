@@ -16,10 +16,8 @@ export abstract class BaseField<T extends Record<string, any>, V> {
   protected readonly form: Form<T>;
   inputValue: any;
 
-  abstract initValue: V;
-
-  get value(): V {
-    return this.initValue;
+  get value(): V | null {
+    return null;
   }
 
   protected constructor(form: Form<T>, options: BaseFieldOptions<T, V>) {
