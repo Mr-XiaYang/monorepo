@@ -1,17 +1,19 @@
 import { makeObservable, observable } from "mobx";
 import { Field, FieldOptions } from "./fields";
-import { makeField } from "./utils";
+import { DeepPartial } from "./type";
+import { makeFields } from "./utils";
 
-type Fields<T> = {
-  [K in keyof T]: Field<T, T[K]>
+type Fields<T extends Record<string, any>> = {
+  [K in keyof T]-?: Field<T, T[K]>
 }
 
 
-type FormOptions<T> = {
+type FormOptions<T extends Record<string, any>> = {
   fields: {
-    [K in keyof T]: FieldOptions<T, T[K]>
+    [K in keyof T]-?: FieldOptions<T, T[K]>
   }
 }
+
 
 export class Form<T extends Record<string, any>> {
   readonly options: FormOptions<T>;
@@ -39,17 +41,13 @@ export class Form<T extends Record<string, any>> {
 
   constructor(options: FormOptions<T>) {
     this.options = options;
-    this.fields = {} as Fields<T>;
-    for (const key in options.fields) {
-      // @ts-ignore
-      this.fields[key] = makeField(this, options.fields[key]);
-    }
+    this.fields = makeFields(this, options.fields);
     makeObservable<this, "fields">(this, {
       fields: observable,
     });
   }
 
-  init() {
+  init(defaultValue: DeepPartial<T>) {
   }
 
   clear() {

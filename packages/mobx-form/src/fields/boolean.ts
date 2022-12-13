@@ -1,16 +1,13 @@
-import { BaseField, BaseFieldOptions, isFieldOptions } from "../base/field";
-import { Form } from "../form";
+import { BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../base/field";
 
-export interface BooleanFieldOptions<T extends Record<string, any>, V extends boolean> extends BaseFieldOptions<T, V> {
-  type: "boolean";
-}
+export type BooleanFieldOptions<T extends Record<string, any>, V> =
+  & BaseInputFieldOptions<T, V>
+  & { type: "boolean" }
 
-export function isBooleanFieldOptions(options: any): options is BooleanFieldOptions<any, any> {
+export function isBooleanFieldOptions<T extends Record<string, any>, V>(options: any): options is BooleanFieldOptions<T, V> {
   return isFieldOptions(options) && options.type === "boolean";
 }
 
-export class BooleanField<T extends Record<string, any>, V extends boolean> extends BaseField<T, V> {
-  constructor(form: Form<T>, options: BooleanFieldOptions<T, V>) {
-    super(form, options);
-  }
+export class BooleanField<T extends Record<string, any>, V> extends BaseInputField<T, BooleanFieldOptions<T, V>, V> {
+  protected readonly emptyValue = false as V;
 }

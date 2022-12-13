@@ -1,17 +1,17 @@
-import { BaseField, BaseFieldOptions, isFieldOptions } from "../base/field";
-import type { Form } from "../form";
+import { BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../base/field";
 
-export interface StringFieldOptions<T extends Record<string, any>, V extends string> extends BaseFieldOptions<T, V> {
-  type: "string";
-}
+export type StringFieldOptions<T extends Record<string, any>, V> =
+  & BaseInputFieldOptions<T, V>
+  & { type: "string"; }
 
-export function isStringFieldOptions(options: any): options is StringFieldOptions<any, any> {
+export function isStringFieldOptions<T extends Record<string, any>, V>(options: any): options is StringFieldOptions<T, V> {
   return isFieldOptions(options) && options.type === "string";
 }
 
-export class StringField<T extends Record<string, any>, V extends string> extends BaseField<T, string> {
+export class StringField<T extends Record<string, any>, V> extends BaseInputField<T, StringFieldOptions<T, V>, V> {
+  protected readonly emptyValue = "" as V;
 
-  constructor(form: Form<T>, options: StringFieldOptions<T, V>) {
-    super(form, options);
+  public init(defaultValue?: V): void {
+
   }
 }

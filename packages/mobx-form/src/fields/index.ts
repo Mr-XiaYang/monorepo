@@ -1,30 +1,30 @@
-import { BooleanField, BooleanFieldOptions, isBooleanFieldOptions } from "./boolean";
+import { BooleanField, BooleanFieldOptions } from "./boolean";
 
-import { ArrayField, ArrayFieldOptions, isArrayFieldOptions } from "./nested/array";
-import { isMapFieldOptions, MapField, MapFieldOptions } from "./nested/map";
-import { isObjectFieldOptions, ObjectField, ObjectFieldOptions } from "./nested/object";
-import { isSetFieldOptions, SetField, SetFieldOptions } from "./nested/set";
-import { isNumberFieldOptions, NumberField, NumberFieldOptions } from "./number";
-import { isStringFieldOptions, StringField, StringFieldOptions } from "./string";
+import { ArrayField, ArrayFieldOptions } from "./nested/array";
+import { MapField, MapFieldOptions } from "./nested/map";
+import { ObjectField, ObjectFieldOptions } from "./nested/object";
+import { SetField, SetFieldOptions } from "./nested/set";
+import { NumberField, NumberFieldOptions } from "./number";
+import { StringField, StringFieldOptions } from "./string";
 
 export type FieldOptions<T extends Record<string, any>, V> =
-  V extends string ? StringFieldOptions<T, V> :
-    V extends number ? NumberFieldOptions<T, V> :
-      V extends boolean ? BooleanFieldOptions<T, V> :
-        V extends Set<any> ? SetFieldOptions<T, V> :
-          V extends Array<any> ? ArrayFieldOptions<T, V> :
-            V extends Map<any, any> ? MapFieldOptions<T, V> :
-              V extends object ? ObjectFieldOptions<T, V> :
+  string extends V ? StringFieldOptions<T, V> :
+    number extends V ? NumberFieldOptions<T, V> :
+      boolean extends V ? BooleanFieldOptions<T, V> :
+        Set<any> extends V ? SetFieldOptions<T, V> :
+          Array<any> extends V ? ArrayFieldOptions<T, V> :
+            Map<any, any> extends V ? MapFieldOptions<T, V> :
+              object extends V ? ObjectFieldOptions<T, V> :
                 unknown
 
 export type Field<T extends Record<string, any>, V> =
-  V extends string ? StringField<T, V> :
-    V extends number ? NumberField<T, V> :
-      V extends boolean ? BooleanField<T, V> :
-        V extends Set<any> ? SetField<T, V> :
-          V extends Array<any> ? ArrayField<T, V> :
-            V extends Map<any, any> ? MapField<T, V> :
-              V extends object ? ObjectField<T, V> :
+  string extends V ? StringField<T, V> :
+    number extends V ? NumberField<T, V> :
+      boolean extends V ? BooleanField<T, V> :
+        Set<any> extends V ? SetField<T, V> :
+          Array<any> extends V ? ArrayField<T, V> :
+            Map<any, any> extends V ? MapField<T, V> :
+              object extends V ? ObjectField<T, V> :
                 unknown
 
 

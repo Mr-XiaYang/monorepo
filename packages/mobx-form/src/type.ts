@@ -10,7 +10,6 @@ export type DeepReadonly<T> =
         T;
 
 
-
 type BaseValueType = string | number | bigint | boolean | null | symbol | Date | Function
 
 export type DeepPartial<T> =
@@ -27,3 +26,5 @@ export type DeepPartial<T> =
                 T extends Object ? { [K in keyof T]?: DeepPartial<T[K]> } :
                   T
 
+
+export type MaybeNull<T> = T | null

@@ -1,1 +1,1 @@
-export { default as makeField } from "./makeField";
+export { makeField, makeFields } from "./makeFields";

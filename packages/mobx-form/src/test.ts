@@ -2,42 +2,44 @@ import { Form } from "./index";
 
 
 type FormData = {
-  loginName: string
+  loginName: string | null
   password: string
   username: {
     firstName: string
     lastName: string
   }
-  tag: string[]
+  tag?: string[]
   children: Array<{
-    test: number
+    test?: number
   }>
 }
 
 const form = new Form<FormData>({
   fields: {
-    loginName: {type: "string"},
+    loginName: {type: "string", allowNull: true},
     password: {type: "string"},
     username: {
       type: "object",
-      fields: {
+      children: {
         firstName: {type: "string"},
         lastName: {type: "string"},
       },
     },
     tag: {
       type: "array",
-      fields: {
+      optional: true,
+      childrenFields: {
         type: "string",
       },
     },
     children: {
       type: "array",
-      fields: {
+      childrenFields: {
         type: "object",
-        fields: {
+        childrenFields: {
           test: {
             type: "number",
+            optional: true,
           },
         },
       },
@@ -45,4 +47,12 @@ const form = new Form<FormData>({
   },
 });
 
-console.log(form.fields.loginName.value);
+form.init({
+  loginName: "",
+  password: "",
+});
+
+
+// form.fields.tag.
+
+

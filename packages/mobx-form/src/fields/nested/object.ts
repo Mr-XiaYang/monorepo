@@ -1,20 +1,20 @@
-import { BaseField, isFieldOptions } from "../../base/field";
+import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
 import { Form } from "../../form";
-import { FieldOptions } from "../index";
+import { makeFields } from "../../utils";
+import { Field, FieldOptions } from "../index";
 
-export type ObjectFieldOptions<T extends Record<string, any>, V extends object> = {
-  type: "object",
-  fields: {
-    [K in keyof V]: FieldOptions<T, V[K]>
-  }
-}
+export type ObjectFieldOptions<T extends Record<string, any>, V> =
+  & BaseNestedFieldOptions<T, V>
+  & { type: "object", childrenFields: { [K in keyof V]-?: FieldOptions<T, V[K]> } }
 
-export function isObjectFieldOptions(options: any): options is ObjectFieldOptions<any, any> {
+export function isObjectFieldOptions<T extends Record<string, any>, V>(options: any): options is ObjectFieldOptions<T, V> {
   return isFieldOptions(options) && options.type === "object";
 }
 
-export class ObjectField<T extends Record<string, any>, V extends object> extends BaseField<T, V> {
+export class ObjectField<T extends Record<string, any>, V> extends BaseNestedField<T, ObjectFieldOptions<T, V>, { [K in keyof V]-?: Field<T, V[K]> }, V> {
+  protected readonly emptyValue = {} as V;
+
   constructor(form: Form<T>, options: ObjectFieldOptions<T, V>) {
-    super(form, options);
+    super(form, options, makeFields(form, options.childrenFields));
   }
 }
