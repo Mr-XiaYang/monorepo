@@ -2,7 +2,7 @@ import { Form } from "./index";
 
 
 type FormData = {
-  loginName: string | null
+  loginName?: string | null
   password: string
   username: {
     firstName: string
@@ -16,7 +16,7 @@ type FormData = {
 
 const form = new Form<FormData>({
   fields: {
-    loginName: {type: "string", allowNull: true},
+    loginName: {type: "string", optional: false, allowNull: true},
     password: {type: "string"},
     username: {
       type: "object",
@@ -47,12 +47,13 @@ const form = new Form<FormData>({
   },
 });
 
-form.init({
-  loginName: "",
-  password: "",
+
+test("test", () => {
+  form.init({
+    loginName: "",
+    password: "",
+  });
+
+  console.log(form);
 });
-
-
-// form.fields.tag.
-
 

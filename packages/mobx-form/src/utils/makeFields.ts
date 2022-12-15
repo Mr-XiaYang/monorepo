@@ -1,4 +1,4 @@
-import { Field, FieldOptions } from "../fields";
+import { Field, FieldOptions } from "../fields/type";
 import { BooleanField, isBooleanFieldOptions } from "../fields/boolean";
 import { ArrayField, isArrayFieldOptions } from "../fields/nested/array";
 import { isMapFieldOptions, MapField } from "../fields/nested/map";

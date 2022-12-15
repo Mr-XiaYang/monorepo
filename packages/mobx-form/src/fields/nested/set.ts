@@ -1,6 +1,6 @@
 import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
 import { Form } from "../../form";
-import { Field, FieldOptions } from "../index";
+import { Field, FieldOptions } from "../type";
 
 type SetType<T> = T extends Set<infer V> ? V : never;
 

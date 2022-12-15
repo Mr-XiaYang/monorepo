@@ -1,5 +1,5 @@
 import { makeObservable, observable } from "mobx";
-import { Field, FieldOptions } from "./fields";
+import { Field, FieldOptions } from "./fields/type";
 import { DeepPartial } from "./type";
 import { makeFields } from "./utils";
 

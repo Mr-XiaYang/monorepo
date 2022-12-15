@@ -2,7 +2,7 @@ import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../b
 import { Form } from "../../form";
 import { DeepPartial } from "../../type";
 import { makeField } from "../../utils";
-import { Field, FieldOptions } from "../index";
+import { Field, FieldOptions } from "../type";
 
 type ArrayType<T> = T extends Array<infer V> ? V : never;
 

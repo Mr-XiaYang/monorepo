@@ -1,6 +1,6 @@
 import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
 import { Form } from "../../form";
-import { FieldOptions } from "../index";
+import { FieldOptions } from "../type";
 
 type MapKeyType<T> = T extends Map<infer K, infer V> ? V : never;
 type MapValueType<T> = T extends Map<infer K, infer V> ? V : never;

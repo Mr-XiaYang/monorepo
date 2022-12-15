@@ -1,7 +1,7 @@
 import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
 import { Form } from "../../form";
 import { makeFields } from "../../utils";
-import { Field, FieldOptions } from "../index";
+import { Field, FieldOptions } from "../type";
 
 export type ObjectFieldOptions<T extends Record<string, any>, V> =
   & BaseNestedFieldOptions<T, V>

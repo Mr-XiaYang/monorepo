@@ -4,8 +4,8 @@ import { Form } from "../form";
 
 type BaseFieldOptions<Type, Value> =
   & { type: string; }
-  & (undefined extends Value ? { optional: true } : { optional?: false })
-  & (null extends Value ? { allowNull: true } : { allowNull?: false })
+  & (undefined extends Value ? { optional: boolean } : { optional?: false })
+  & (null extends Value ? { allowNull: boolean } : { allowNull?: false })
 
 abstract class BaseField<Type extends Record<string, any>, Options extends BaseFieldOptions<Type, Value>, Value> {
   protected readonly form: Form<Type>;
@@ -29,7 +29,7 @@ export type BaseInputFieldOptions<Type, Value> =
 
 export abstract class BaseInputField<Type extends Record<string, any>, Options extends BaseInputFieldOptions<Type, Value>, Value> extends BaseField<Type, Options, Value> {
   protected defaultValue?: Value;
-  private $value?:Value;
+  private $value?: Value;
 
   get value(): Value {
     return this.$value ?? (
@@ -38,11 +38,11 @@ export abstract class BaseInputField<Type extends Record<string, any>, Options e
   }
 
   set value(value: Value) {
-    this.$value = value
+    this.$value = value;
   }
 
-  get changed():boolean {
-    return !!this.defaultValue && this.defaultValue !== this.value
+  get changed(): boolean {
+    return !!this.defaultValue && this.defaultValue !== this.value;
   }
 
   changeValue(value: any) {
