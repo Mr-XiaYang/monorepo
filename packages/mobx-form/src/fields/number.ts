@@ -1,4 +1,4 @@
-import {  BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../base/field";
+import {  BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../interface/field/field";
 
 export type NumberFieldOptions<T extends Record<string, any>, V> =
   & BaseInputFieldOptions<T, V>

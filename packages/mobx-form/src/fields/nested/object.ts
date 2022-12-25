@@ -1,11 +1,11 @@
-import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
+import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../interface/field/field";
 import { Form } from "../../form";
 import { makeFields } from "../../utils";
 import { Field, FieldOptions } from "../type";
 
 export type ObjectFieldOptions<T extends Record<string, any>, V> =
   & BaseNestedFieldOptions<T, V>
-  & { type: "object", childrenFields: { [K in keyof V]-?: FieldOptions<T, V[K]> } }
+  & { type: "object", childrenFields: { [K in keyof V]: FieldOptions<T, V[K]> } }
 
 export function isObjectFieldOptions<T extends Record<string, any>, V>(options: any): options is ObjectFieldOptions<T, V> {
   return isFieldOptions(options) && options.type === "object";

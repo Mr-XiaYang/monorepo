@@ -1,4 +1,4 @@
-import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../base/field";
+import { BaseNestedField, BaseNestedFieldOptions, isFieldOptions } from "../../interface/field/field";
 import { Form } from "../../form";
 import { DeepPartial } from "../../type";
 import { makeField } from "../../utils";

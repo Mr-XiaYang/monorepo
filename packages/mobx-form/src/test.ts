@@ -2,7 +2,7 @@ import { Form } from "./index";
 
 
 type FormData = {
-  loginName?: string | null
+  loginName: string | null
   password: string
   username: {
     firstName: string
@@ -14,13 +14,13 @@ type FormData = {
   }>
 }
 
-const form = new Form<FormData>({
+const form = new Form({
   fields: {
     loginName: {type: "string", optional: false, allowNull: true},
-    password: {type: "string"},
+    password: {type: "string", variant: "password"},
     username: {
       type: "object",
-      children: {
+      childrenFields: {
         firstName: {type: "string"},
         lastName: {type: "string"},
       },

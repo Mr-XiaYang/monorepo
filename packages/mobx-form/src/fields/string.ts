@@ -1,8 +1,11 @@
-import { BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../base/field";
+import { BaseInputField, BaseInputFieldOptions, isFieldOptions } from "../interface/field/field";
 
-export type StringFieldOptions<T extends Record<string, any>, V> =
+export type StringFieldOptions<T, V> =
   & BaseInputFieldOptions<T, V>
-  & { type: "string"; }
+  & {
+  type: "string";
+  variant?: "text" | "password" | "telephone" | "email" | "url";
+}
 
 export function isStringFieldOptions<T extends Record<string, any>, V>(options: any): options is StringFieldOptions<T, V> {
   return isFieldOptions(options) && options.type === "string";
@@ -15,3 +18,6 @@ export class StringField<T extends Record<string, any>, V> extends BaseInputFiel
 
   }
 }
+
+
+
