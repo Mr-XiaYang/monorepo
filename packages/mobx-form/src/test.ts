@@ -1,4 +1,4 @@
-import { Form } from "./index";
+import { Form } from "./form";
 
 
 type FormData = {
@@ -14,34 +14,20 @@ type FormData = {
   }>
 }
 
-const form = new Form({
+
+const a = new Form({
   fields: {
-    loginName: {type: "string", optional: false, allowNull: true},
-    password: {type: "string", variant: "password"},
-    username: {
+    loginName: {type: "text"},
+    password: {
+      type: "array", childrenFields: {
+        type: "text",
+      },
+    },
+    obj: {
       type: "object",
       childrenFields: {
-        firstName: {type: "string"},
-        lastName: {type: "string"},
-      },
-    },
-    tag: {
-      type: "array",
-      optional: true,
-      childrenFields: {
-        type: "string",
-      },
-    },
-    children: {
-      type: "array",
-      childrenFields: {
-        type: "object",
-        childrenFields: {
-          test: {
-            type: "number",
-            optional: true,
-          },
-        },
+        field1: {type: "text"},
+        field2: {type: "text"},
       },
     },
   },
@@ -49,11 +35,16 @@ const form = new Form({
 
 
 test("test", () => {
-  form.init({
-    loginName: "",
-    password: "",
-  });
+  a.fields.password.insert("test01", "last");
+  a.fields.password.insert("test02", "last");
+  console.log(a.fields.password.value);
+  a.fields.password.insert("test03", "last");
+  a.fields.password.swapIndex(0, 2);
+  console.log(a.fields.password.value);
+  console.log(a.fields.password.children.map((child)=> child.changed));
 
-  console.log(form);
+
+
+
 });
 

@@ -1,4 +1,3 @@
-import { Options } from "@swc/core";
 import { Form as FormInterface } from "../form";
 import { ArrayField, ArrayFieldOptions } from "./array";
 import { IntegerField, IntegerFieldOptions } from "./integer";
