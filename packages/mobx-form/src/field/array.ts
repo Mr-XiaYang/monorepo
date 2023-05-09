@@ -1,4 +1,5 @@
 import { Form as FormInterface } from "../form";
+import { Merge } from "../type";
 import { makeField } from "../utils";
 import { BaseNestedField, BaseNestedFieldOptions } from "./base";
 import type { FieldOptions, FieldValue } from "./index";
@@ -20,7 +21,7 @@ export class ArrayField<Form extends FormInterface<any>, Options extends ArrayFi
     value.map((v) => this.insert(v as FieldValue<Options["childrenFields"]>, "last"));
   }
 
-  constructor(form: Form, options: Options) {
+  constructor(form: Form, options: Merge<Options, { id: string }>) {
     super(form, options, {
       emptyValue: [] as NonNullable<FieldValue<Options>>,
     });
@@ -32,15 +33,12 @@ export class ArrayField<Form extends FormInterface<any>, Options extends ArrayFi
   }
 
   insert(value: FieldValue<Options["childrenFields"]>, position: "first" | "last" | number = "last"): void {
-    const child = makeField<Form, Options["childrenFields"]>(this.form, this.options.childrenFields);
+    const index = position === "first" ? 0 : position === "last" ? this.children.length : position;
+    const child = makeField<Form, Options["childrenFields"]>(this.form, {
+      id: `${this.options.id}[]`, ...this.options.childrenFields,
+    });
     child.value = value;
-    if (position === "first") {
-      this.children.splice(0, 0, child);
-    } else if (position === "last") {
-      this.children.splice(this.children.length, 0, child);
-    } else {
-      this.children.splice(position, 0, child);
-    }
+    this.children.splice(index, 0, child);
   }
 
   remove(index: number): void {

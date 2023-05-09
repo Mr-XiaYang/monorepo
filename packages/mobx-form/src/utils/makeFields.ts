@@ -6,7 +6,7 @@ import { TextField } from "../field/text";
 import type { Form, FormOptions } from "../form";
 
 
-export function makeField<T extends Form<FormOptions>, O extends FieldOptions>(form: T, options: O): FieldType<T, O> {
+export function makeField<T extends Form<FormOptions>, O extends FieldOptions>(form: T, options: O & { id: string }): FieldType<T, O> {
   if (options && options.type) {
     switch (options.type) {
       case "text":

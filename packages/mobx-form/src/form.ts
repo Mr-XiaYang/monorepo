@@ -28,7 +28,7 @@ export class Form<Options extends FormOptions> {
   constructor(options: Options) {
     this.options = options;
     this.fields = Object.keys(options.fields).reduce((fields, key) => ({
-      ...fields, [key]: makeField(this, options.fields[key]),
+      ...fields, [key]: makeField(this, {id: key, ...options.fields[key]}),
     }), {} as FormFields<this, Options>);
   }
 

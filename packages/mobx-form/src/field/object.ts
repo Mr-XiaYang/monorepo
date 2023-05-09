@@ -1,4 +1,5 @@
 import { Form as FormInterface } from "../form";
+import { Merge } from "../type";
 import { makeField } from "../utils";
 import { BaseNestedField, BaseNestedFieldOptions } from "./base";
 import type { FieldOptions, FieldType } from "./index";
@@ -22,11 +23,13 @@ export class ObjectField<Form extends FormInterface<any>, Options extends Object
 
   }
 
-  constructor(form: Form, options: Options) {
+  constructor(form: Form, options: Merge<Options, { id: string }>) {
     super(form, options, {emptyValue: {} as NonNullable<FieldValue<Options>>});
     const emptyValue = this.config.emptyValue as Record<string, any>;
     this.children = Object.keys(options.childrenFields).reduce((fields, key) => {
-      const field = makeField(this.form, options.childrenFields[key]);
+      const field = makeField(this.form, {
+        id: `${this.options.id}.${key}`, ...options.childrenFields[key],
+      });
       emptyValue[key] = field.emptyValue;
       return {...fields, [key]: field};
     }, {} as { [K in keyof Options["childrenFields"]]: FieldType<Form, Options["childrenFields"][K]> });

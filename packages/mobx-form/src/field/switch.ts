@@ -1,3 +1,4 @@
+import { Merge } from "../type";
 import { Form as FormInterface } from "../form";
 import { BaseInputField, BaseInputFieldOptions } from "./base";
 import { FieldValue } from "./index";
@@ -8,7 +9,7 @@ export interface SwitchFieldOptions extends BaseInputFieldOptions {
 }
 
 export class SwitchField<Form extends FormInterface<any>, Options extends SwitchFieldOptions> extends BaseInputField<Form, Options> {
-  constructor(form: Form, options: Options) {
+  constructor(form: Form, options: Merge<Options, { id: string }>) {
     super(form, options, {
       emptyValue: false as NonNullable<FieldValue<Options>>,
     });

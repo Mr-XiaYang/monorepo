@@ -1,6 +1,9 @@
 {
   "extends": "@m_xy/tsconfig_base/node_next.json",
   "compilerOptions": {
+    "lib": [
+      "ES2020", "DOM"
+    ],
     "composite": true,
     "noEmit": false,
     "declaration": true,

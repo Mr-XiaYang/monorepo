@@ -1,5 +1,7 @@
 import { Form as FormInterface } from "../form";
+import { Merge } from "../type";
 import { FieldValue } from "./index";
+
 
 export interface BaseFieldOptions {
   type: unknown;
@@ -7,16 +9,16 @@ export interface BaseFieldOptions {
   allowNull?: true | false;
 }
 
-type BaseFieldConfig<Options extends BaseFieldOptions> = {
-  emptyValue: NonNullable<FieldValue<Options>>
+interface BaseFieldConfig<Options extends BaseFieldOptions> {
+  emptyValue: NonNullable<FieldValue<Options>>;
 }
 
-export abstract class BaseField<Form, Options extends BaseFieldOptions> {
+export abstract class BaseField<Form, Options extends BaseFieldOptions, Config extends BaseFieldConfig<Options>> {
   protected readonly form: Form;
-  protected readonly options: Options;
-  protected readonly config: Required<BaseFieldConfig<Options>>;
+  protected readonly options: Merge<Options, { id: string }>;
+  protected readonly config: Config;
 
-  protected constructor(form: Form, options: Options, config: BaseFieldConfig<Options>) {
+  protected constructor(form: Form, options: Merge<Options, { id: string }>, config: Config) {
     this.form = form;
     this.options = options;
     this.config = config;
@@ -39,7 +41,11 @@ export interface BaseNestedFieldOptions extends BaseFieldOptions {
   childrenFields: unknown;
 }
 
-export abstract class BaseNestedField<Form extends FormInterface<any>, Options extends BaseNestedFieldOptions> extends BaseField<Form, Options> {
+export interface BaseNestedFieldConfig<Options extends BaseFieldOptions> extends BaseFieldConfig<Options> {
+
+}
+
+export abstract class BaseNestedField<Form extends FormInterface<any>, Options extends BaseNestedFieldOptions> extends BaseField<Form, Options, Required<BaseNestedFieldConfig<Options>>> {
   abstract children: unknown;
 }
 
@@ -48,8 +54,10 @@ export interface BaseInputFieldOptions extends BaseFieldOptions {
 
 }
 
+export interface BaseInputFieldConfig<Options extends BaseFieldOptions> extends BaseFieldConfig<Options> {
+}
 
-export abstract class BaseInputField<Form extends FormInterface<any>, Options extends BaseInputFieldOptions> extends BaseField<Form, Options> {
+export abstract class BaseInputField<Form extends FormInterface<any>, Options extends BaseInputFieldOptions> extends BaseField<Form, Options, Required<BaseInputFieldConfig<Options>>> {
   protected readonly state: {
     defaultValue: FieldValue<Options>
     currentValue: FieldValue<Options>
@@ -59,7 +67,7 @@ export abstract class BaseInputField<Form extends FormInterface<any>, Options ex
     return this.state.currentValue != this.state.defaultValue;
   }
 
-  protected constructor(form: Form, options: Options, config: BaseFieldConfig<Options>) {
+  protected constructor(form: Form, options: Merge<Options, { id: string }>, config: BaseInputFieldConfig<Options>) {
     super(form, options, config);
     this.state = {currentValue: this.emptyValue, defaultValue: this.emptyValue};
   }

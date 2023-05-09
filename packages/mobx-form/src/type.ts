@@ -27,4 +27,4 @@ export type DeepPartial<T> =
                   T
 
 
-export type MaybeNull<T> = T | null
+export type Merge<T, Other> = T & Other
